@@ -295,9 +295,9 @@ namespace system_ACXAJY
 			int cantidadMaterial = Convert.ToInt32(txtcantMaterial.Text);
 			double precio = cantidadMaterial * materialSeleccionado.PrecioMaterial;
 
-			int? indiceMaterial = _listaMaterial.FindIndex(m => m.Idmaterial == materialSeleccionado.Idmaterial);
+			int indiceMaterial = _listaMaterialProductoActual.FindIndex(m => m.Idmaterialmp == materialSeleccionado.Idmaterial);
 
-			if (indiceMaterial == null)
+			if (indiceMaterial == -1)
 			{
 				MaterialProducto materialProducto = new()
 				{
@@ -310,14 +310,14 @@ namespace system_ACXAJY
 				dgvSeleccionMat.Rows.Add(0, materialSeleccionado.NombreMaterial, materialProducto.CantMaterialmp, materialProducto.PrecioMaterialmp);
 			}
 			else {
-				MaterialProducto materialProducto = _listaMaterialProductoActual[indiceMaterial.Value];
+				MaterialProducto materialProducto = _listaMaterialProductoActual[indiceMaterial];
 				materialProducto.CantMaterialmp += cantidadMaterial;
 				materialProducto.PrecioMaterialmp += precio;
 
-				DataGridViewRow row = dgvSeleccionMat.Rows[indiceMaterial.Value];
+				DataGridViewRow row = dgvSeleccionMat.Rows[indiceMaterial];
 
-				row.Cells[2].Value = _listaMaterialProductoActual[indiceMaterial.Value].CantMaterialmp;
-				row.Cells[3].Value = _listaMaterialProductoActual[indiceMaterial.Value].PrecioMaterialmp;
+				row.Cells[2].Value = materialProducto.CantMaterialmp;
+				row.Cells[3].Value = materialProducto.PrecioMaterialmp;
 			}
 
 			// Sumar el precio del material al precio total del producto
