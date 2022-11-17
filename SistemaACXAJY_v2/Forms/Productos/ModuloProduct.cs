@@ -31,7 +31,6 @@ namespace system_ACXAJY
                 _producto = producto;
                 LoadProducto();
             }
-
         }
 
         public void LoadProducto()
@@ -55,6 +54,10 @@ namespace system_ACXAJY
 
             // 2. Consultar los productos del pedido
             LoadMaterialSeleccionado(_producto.IdProducto);
+
+			// Sumar el precio del material al precio total del producto
+			double total = _listaMaterialProductoActual.Sum(mp => mp.PrecioMaterialmp);
+			txtCosto.Text = total.ToString();
         }
 
         public void LoadCategoria()
@@ -266,7 +269,8 @@ namespace system_ACXAJY
             MessageBox.Show("Pedido Actualizado");
             Dispose();
         }
-        public void Clear()
+
+		public void Clear()
         {
             txtPName.Clear();
             txtPDesc.Clear();
@@ -363,8 +367,15 @@ namespace system_ACXAJY
 
         private void dgvSeleccionMat_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            _listaMaterialProductoActual.RemoveAt(e.RowIndex);
+			MaterialProducto materialProducto = _listaMaterialProductoActual[e.RowIndex];
+
+            _listaMaterialProductoActual.Remove(materialProducto);
             dgvSeleccionMat.Rows.RemoveAt(e.RowIndex);
+
+			// Sumar el precio del material al precio total del producto
+			double total = Convert.ToDouble(txtCosto.Text);
+			total -= materialProducto.PrecioMaterialmp;
+			txtCosto.Text = total.ToString();
         }
     }
 }
