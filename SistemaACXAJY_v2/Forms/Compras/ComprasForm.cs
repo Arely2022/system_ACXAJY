@@ -25,6 +25,8 @@ namespace system_ACXAJY
             try {
                 con.Open();
                 dr = cm.ExecuteReader();
+
+                float total = 0;
                 while (dr.Read())
                 {
                     Compra compra = new()
@@ -34,6 +36,8 @@ namespace system_ACXAJY
                         FechaCompra = Convert.ToDateTime(dr[2]),
                     };
 
+                    total += compra.totalcompra;
+
                     _compras.Add(compra);
 
                     dgvcompras.Rows.Add(
@@ -41,6 +45,8 @@ namespace system_ACXAJY
                         compra.totalcompra,
                         compra.FechaCompra);
                 }
+
+                textBox1.Text = total.ToString();
             }
             catch(Exception ex)
             {
