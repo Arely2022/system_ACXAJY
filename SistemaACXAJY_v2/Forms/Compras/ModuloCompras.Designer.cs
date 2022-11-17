@@ -52,13 +52,13 @@ namespace system_ACXAJY
             this.txtTotalPagar = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvSeleccionMat = new System.Windows.Forms.DataGridView();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblCID = new System.Windows.Forms.Label();
             this.ID_detallecm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nom_mat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cantidad_m = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.precio_m = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eliminar = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblCID = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExit)).BeginInit();
             this.panel1.SuspendLayout();
@@ -315,26 +315,6 @@ namespace system_ACXAJY
             this.dgvSeleccionMat.TabIndex = 92;
             this.dgvSeleccionMat.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSeleccionMat_CellContentClick);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(53, 499);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 21);
-            this.label6.TabIndex = 91;
-            this.label6.Text = "Total Compra:";
-            // 
-            // lblCID
-            // 
-            this.lblCID.AutoSize = true;
-            this.lblCID.Location = new System.Drawing.Point(318, 291);
-            this.lblCID.Name = "lblCID";
-            this.lblCID.Size = new System.Drawing.Size(101, 25);
-            this.lblCID.TabIndex = 90;
-            this.lblCID.Text = "Compra_ID";
-            this.lblCID.Visible = false;
-            // 
             // ID_detallecm
             // 
             this.ID_detallecm.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -342,7 +322,7 @@ namespace system_ACXAJY
             this.ID_detallecm.MinimumWidth = 8;
             this.ID_detallecm.Name = "ID_detallecm";
             this.ID_detallecm.Visible = false;
-            this.ID_detallecm.Width = 113;
+            this.ID_detallecm.Width = 150;
             // 
             // nom_mat
             // 
@@ -376,6 +356,26 @@ namespace system_ACXAJY
             this.eliminar.MinimumWidth = 8;
             this.eliminar.Name = "eliminar";
             this.eliminar.Width = 8;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(53, 499);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 21);
+            this.label6.TabIndex = 91;
+            this.label6.Text = "Total Compra:";
+            // 
+            // lblCID
+            // 
+            this.lblCID.AutoSize = true;
+            this.lblCID.Location = new System.Drawing.Point(318, 291);
+            this.lblCID.Name = "lblCID";
+            this.lblCID.Size = new System.Drawing.Size(101, 25);
+            this.lblCID.TabIndex = 90;
+            this.lblCID.Text = "Compra_ID";
+            this.lblCID.Visible = false;
             // 
             // ModuloCompras
             // 

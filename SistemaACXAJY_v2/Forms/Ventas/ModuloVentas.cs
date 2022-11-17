@@ -143,8 +143,7 @@ namespace system_ACXAJY
             ListaVentaProductoActual.Add(ventaProducto);
             dgvSeleccionProd.Rows.Add(0, SelectedProd.NombreProducto, ventaProducto.cantprodvp, SelectedProd.PrecioProducto);
 
-            double total = (Convert.ToDouble(SelectedProd.PrecioProducto) * Convert.ToDouble(txtCantP.Text));
-            txtTotalPagar.Text = total.ToString();
+            
 
             coBoxCateg.SelectedIndex = -1;
             coBoxProd.Items.Clear();
@@ -242,11 +241,11 @@ namespace system_ACXAJY
             // 1. Actualizar el pedido
             cm = new SqlCommand(@"
                 UPDATE venta
-                SET fecha_venta=@fecha_venta, total_compra=@total_compra
+                SET fecha_venta=@fecha_venta, total_venta=@total_venta
                 WHERE Id_venta =" + venta.IdVenta, con, transaction);
 
             cm.Parameters.AddWithValue("@fecha_venta", dTimeVenta.Value);
-            cm.Parameters.AddWithValue("@total_compra", txtTotalPagar.Text);
+            cm.Parameters.AddWithValue("@total_venta", txtTotalPagar.Text);
 
             try
             {
@@ -290,7 +289,7 @@ namespace system_ACXAJY
             transaction.Commit();
             con.Close();
 
-            MessageBox.Show("Venta Actualizado");
+            MessageBox.Show("Venta Actualizada");
             this.Dispose();
         }
 

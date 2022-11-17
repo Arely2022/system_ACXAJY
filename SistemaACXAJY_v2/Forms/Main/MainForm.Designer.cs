@@ -43,15 +43,13 @@ namespace system_ACXAJY
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMain
@@ -63,23 +61,21 @@ namespace system_ACXAJY
             this.panelMain.Controls.Add(this.btnProductos);
             this.panelMain.Controls.Add(this.btnMaterial);
             this.panelMain.Controls.Add(this.btnCategorias);
-            this.panelMain.Controls.Add(this.btnGanacias);
-            this.panelMain.Controls.Add(this.panelBase);
             this.panelMain.Controls.Add(this.pictureBox5);
             this.panelMain.Controls.Add(this.pictureBox4);
             this.panelMain.Controls.Add(this.pictureBox3);
             this.panelMain.Controls.Add(this.pictureBox2);
-            this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelMain.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMain.Location = new System.Drawing.Point(0, 0);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(978, 584);
+            this.panelMain.Size = new System.Drawing.Size(156, 584);
             this.panelMain.TabIndex = 0;
             // 
             // btnVentas
             // 
             this.btnVentas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnVentas.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnVentas.Location = new System.Drawing.Point(22, 458);
+            this.btnVentas.Location = new System.Drawing.Point(22, 474);
             this.btnVentas.Name = "btnVentas";
             this.btnVentas.Size = new System.Drawing.Size(106, 30);
             this.btnVentas.TabIndex = 18;
@@ -91,7 +87,7 @@ namespace system_ACXAJY
             // 
             this.btnCompras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnCompras.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnCompras.Location = new System.Drawing.Point(22, 494);
+            this.btnCompras.Location = new System.Drawing.Point(22, 521);
             this.btnCompras.Name = "btnCompras";
             this.btnCompras.Size = new System.Drawing.Size(106, 30);
             this.btnCompras.TabIndex = 17;
@@ -103,7 +99,7 @@ namespace system_ACXAJY
             // 
             this.btnPedidos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnPedidos.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnPedidos.Location = new System.Drawing.Point(22, 89);
+            this.btnPedidos.Location = new System.Drawing.Point(22, 108);
             this.btnPedidos.Name = "btnPedidos";
             this.btnPedidos.Size = new System.Drawing.Size(106, 30);
             this.btnPedidos.TabIndex = 16;
@@ -115,7 +111,7 @@ namespace system_ACXAJY
             // 
             this.btnProductos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnProductos.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnProductos.Location = new System.Drawing.Point(22, 194);
+            this.btnProductos.Location = new System.Drawing.Point(22, 213);
             this.btnProductos.Name = "btnProductos";
             this.btnProductos.Size = new System.Drawing.Size(106, 30);
             this.btnProductos.TabIndex = 15;
@@ -127,7 +123,7 @@ namespace system_ACXAJY
             // 
             this.btnMaterial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnMaterial.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMaterial.Location = new System.Drawing.Point(22, 299);
+            this.btnMaterial.Location = new System.Drawing.Point(22, 318);
             this.btnMaterial.Name = "btnMaterial";
             this.btnMaterial.Size = new System.Drawing.Size(106, 30);
             this.btnMaterial.TabIndex = 14;
@@ -139,7 +135,7 @@ namespace system_ACXAJY
             // 
             this.btnCategorias.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnCategorias.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnCategorias.Location = new System.Drawing.Point(22, 404);
+            this.btnCategorias.Location = new System.Drawing.Point(22, 423);
             this.btnCategorias.Name = "btnCategorias";
             this.btnCategorias.Size = new System.Drawing.Size(106, 30);
             this.btnCategorias.TabIndex = 13;
@@ -151,7 +147,7 @@ namespace system_ACXAJY
             // 
             this.btnGanacias.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
             this.btnGanacias.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnGanacias.Location = new System.Drawing.Point(22, 530);
+            this.btnGanacias.Location = new System.Drawing.Point(34, 10);
             this.btnGanacias.Name = "btnGanacias";
             this.btnGanacias.Size = new System.Drawing.Size(106, 30);
             this.btnGanacias.TabIndex = 12;
@@ -161,16 +157,15 @@ namespace system_ACXAJY
             // panelBase
             // 
             this.panelBase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.panelBase.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelBase.Location = new System.Drawing.Point(143, 0);
+            this.panelBase.Location = new System.Drawing.Point(154, 0);
             this.panelBase.Name = "panelBase";
-            this.panelBase.Size = new System.Drawing.Size(835, 584);
+            this.panelBase.Size = new System.Drawing.Size(824, 534);
             this.panelBase.TabIndex = 4;
             // 
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(50, 348);
+            this.pictureBox5.Location = new System.Drawing.Point(50, 367);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(50, 50);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -180,7 +175,7 @@ namespace system_ACXAJY
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(50, 33);
+            this.pictureBox4.Location = new System.Drawing.Point(50, 52);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(50, 50);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -190,7 +185,7 @@ namespace system_ACXAJY
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(50, 138);
+            this.pictureBox3.Location = new System.Drawing.Point(50, 157);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(50, 50);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -200,37 +195,31 @@ namespace system_ACXAJY
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(50, 243);
+            this.pictureBox2.Location = new System.Drawing.Point(50, 262);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(50, 50);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
             // 
-            // pictureBox1
+            // panel1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox6.TabIndex = 2;
-            this.pictureBox6.TabStop = false;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(117)))), ((int)(((byte)(157)))));
+            this.panel1.Controls.Add(this.btnGanacias);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(156, 530);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(822, 54);
+            this.panel1.TabIndex = 5;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(978, 584);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelMain);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.pictureBox6);
+            this.Controls.Add(this.panelBase);
             this.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MainForm";
@@ -241,8 +230,7 @@ namespace system_ACXAJY
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -250,12 +238,10 @@ namespace system_ACXAJY
         #endregion
 
         private System.Windows.Forms.Panel panelMain;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.Panel panelBase;
         private System.Windows.Forms.Button btnGanacias;
         private System.Windows.Forms.Button btnCategorias;
@@ -264,5 +250,6 @@ namespace system_ACXAJY
         private System.Windows.Forms.Button btnPedidos;
         private Button btnVentas;
         private Button btnCompras;
+        private Panel panel1;
     }
 }

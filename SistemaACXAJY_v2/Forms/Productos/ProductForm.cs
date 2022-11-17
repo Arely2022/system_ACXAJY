@@ -115,7 +115,6 @@ namespace system_ACXAJY
 			{
 				$"SELECT ID_detallevp FROM venta_producto WHERE ID_producto_vp = {idProducto}",
 				$"SELECT ID_detallepp FROM pedido_producto WHERE ID_producto_pp = {idProducto}",
-				$"SELECT ID_detallemp FROM material_producto WHERE ID_producto_mp = {idProducto}"
 			};
 
 			foreach (string query in queries)

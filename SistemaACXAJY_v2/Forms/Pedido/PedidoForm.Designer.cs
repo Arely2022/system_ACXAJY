@@ -60,7 +60,7 @@ namespace system_ACXAJY
             this.panel1.Controls.Add(this.btnAdd);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 441);
+            this.panel1.Location = new System.Drawing.Point(0, 447);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(824, 87);
             this.panel1.TabIndex = 1;
@@ -68,7 +68,7 @@ namespace system_ACXAJY
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.textBox1.Location = new System.Drawing.Point(488, 25);
+            this.textBox1.Location = new System.Drawing.Point(490, 25);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(188, 29);
             this.textBox1.TabIndex = 3;
@@ -77,7 +77,7 @@ namespace system_ACXAJY
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(412, 28);
+            this.label2.Location = new System.Drawing.Point(412, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 21);
             this.label2.TabIndex = 2;
@@ -87,7 +87,7 @@ namespace system_ACXAJY
             // 
             this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
-            this.btnAdd.Location = new System.Drawing.Point(744, 25);
+            this.btnAdd.Location = new System.Drawing.Point(750, 25);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(42, 37);
             this.btnAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -100,7 +100,7 @@ namespace system_ACXAJY
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Ebrima", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(27, 25);
+            this.label1.Location = new System.Drawing.Point(25, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 32);
             this.label1.TabIndex = 0;
@@ -115,7 +115,7 @@ namespace system_ACXAJY
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(824, 441);
+            this.dataGridView1.Size = new System.Drawing.Size(824, 447);
             this.dataGridView1.TabIndex = 2;
             // 
             // dgvPedido
@@ -148,12 +148,12 @@ namespace system_ACXAJY
             this.dgvPedido.RowHeadersWidth = 62;
             this.dgvPedido.RowTemplate.Height = 28;
             this.dgvPedido.Size = new System.Drawing.Size(824, 441);
-            this.dgvPedido.TabIndex = 3;
+            this.dgvPedido.TabIndex = 2;
             this.dgvPedido.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPedido_CellContentClick);
             // 
             // ID_pedido
             // 
-            this.ID_pedido.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ID_pedido.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.ID_pedido.HeaderText = "Número";
             this.ID_pedido.MinimumWidth = 8;
             this.ID_pedido.Name = "ID_pedido";
@@ -171,7 +171,7 @@ namespace system_ACXAJY
             // 
             // completado
             // 
-            this.completado.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.completado.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.completado.HeaderText = "Completado";
             this.completado.MinimumWidth = 8;
             this.completado.Name = "completado";
@@ -180,7 +180,7 @@ namespace system_ACXAJY
             // 
             // total_ped
             // 
-            this.total_ped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.total_ped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.total_ped.HeaderText = "Total";
             this.total_ped.MinimumWidth = 8;
             this.total_ped.Name = "total_ped";
@@ -206,7 +206,7 @@ namespace system_ACXAJY
             // 
             // editar
             // 
-            this.editar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.editar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.editar.HeaderText = "";
             this.editar.Image = ((System.Drawing.Image)(resources.GetObject("editar.Image")));
             this.editar.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
@@ -216,7 +216,7 @@ namespace system_ACXAJY
             // 
             // eliminar
             // 
-            this.eliminar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.eliminar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.eliminar.HeaderText = "";
             this.eliminar.Image = ((System.Drawing.Image)(resources.GetObject("eliminar.Image")));
             this.eliminar.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
@@ -228,7 +228,7 @@ namespace system_ACXAJY
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 528);
+            this.ClientSize = new System.Drawing.Size(824, 534);
             this.Controls.Add(this.dgvPedido);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);

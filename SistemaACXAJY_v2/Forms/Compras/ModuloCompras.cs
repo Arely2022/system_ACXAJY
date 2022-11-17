@@ -19,6 +19,7 @@ namespace system_ACXAJY
         {
             InitializeComponent();
             LoadMaterial();
+
         }
         public void clear()
         {
@@ -40,6 +41,7 @@ namespace system_ACXAJY
                     material.Idmaterial = Convert.ToInt32(dr[0].ToString());
                     material.NombreMaterial = dr[1].ToString();
                     coBoxMat.Items.Add(material);
+                    ListaMaterial.Add(material);
                 }
             }
 
@@ -53,7 +55,7 @@ namespace system_ACXAJY
                 dr.Close();
             }
         }
-
+        
         private void pictureBoxExit_Click(object sender, EventArgs e)
         {
             this.Dispose();
@@ -70,7 +72,7 @@ namespace system_ACXAJY
                     .Where(p => p.Idmaterial == compraMaterial.idmaterialcm)
                     .FirstOrDefault()!;
 
-                float preciomaterial = (float)material.PrecioMaterial;
+                float preciomaterial = (float) material.PrecioMaterial;
                 string nombrematerial = material.NombreMaterial;
 
                 ListaCompraMaterialActual.Add(compraMaterial);
@@ -117,11 +119,10 @@ namespace system_ACXAJY
             ListaCompraMaterialActual.Add(compraMaterial);
             dgvSeleccionMat.Rows.Add(0, SelectedMat.NombreMaterial, compraMaterial.cantmaterialcm, SelectedMat.PrecioMaterial);
 
-            double total = (Convert.ToDouble(SelectedMat.PrecioMaterial) * Convert.ToDouble(txtCantMat.Text));
-            txtTotalPagar.Text = total.ToString();
+            
 
             coBoxMat.SelectedIndex = -1;
-            coBoxMat.Items.Clear();
+            txtprecioMat.Clear();
             txtCantMat.Clear();
         }
         public void MaterialSeleccionado()
@@ -219,7 +220,7 @@ namespace system_ACXAJY
                 SET fecha_compra=@fecha_compra, total_compra=@total_compra
                 WHERE Id_compra =" + compra.Idcompra, con, transaction);
 
-            cm.Parameters.AddWithValue("@fecha_venta", dTimeCompra.Value);
+            cm.Parameters.AddWithValue("@fecha_compra", dTimeCompra.Value);
             cm.Parameters.AddWithValue("@total_compra", txtTotalPagar.Text);
 
             try
