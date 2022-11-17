@@ -83,61 +83,104 @@ namespace system_ACXAJY
         {
             string colName = dgvProducts.Columns[e.ColumnIndex].Name;
             if (colName == "editar")
-            {
+			{
 				Producto producto = _listaProducto[e.RowIndex];
-
-                ModuloProduct productmodule = new(producto);
-                productmodule.btnSave.Enabled = false;
-                productmodule.btnUpdate.Enabled = true;
-                productmodule.ShowDialog();
-            }
-            else if (colName == "eliminar")
+				EditarProducto(producto);
+			}
+			else if (colName == "eliminar")
             {
-                if (MessageBox.Show("¿Eliminar registro?", "Registro eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+				if (MessageBox.Show("¿Eliminar registro?", "Registro eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     return;
                 }
-
-                con.Open();
-				SqlTransaction transaction = con.BeginTransaction();
 
 				int idProducto = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells[0].Value);
-
-				// Eliminar Materiales
-				List<MaterialProducto> materialProductos = MaterialProductoQueries
-					.ConsultarPorProducto(con, idProducto, transaction);
-
-				bool exito = MaterialProductoQueries
-					.EliminarMaterial(materialProductos, con, transaction);
-
-				if (!exito)
-				{
-					transaction.Rollback();
-					con.Close();
-					return;
-				}
-
-				// Eliminar Producto
-                string query = $"DELETE FROM producto WHERE ID_producto = {idProducto}";
-                SqlCommand cm = new(query, con, transaction);
-
-                try
-                {
-                    cm.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-					transaction.Rollback();
-                    con.Close();
-                    return;
-                }
-
-				transaction.Commit();
-				con.Close();
-                MessageBox.Show("Registro eliminado correctamente");
+                EliminarProducto(idProducto);
             }
             LoadProducto();
         }
-    }
+
+		private void EditarProducto(Producto producto)
+		{
+			ModuloProduct productmodule = new(producto);
+			productmodule.btnSave.Enabled = false;
+			productmodule.btnUpdate.Enabled = true;
+			productmodule.ShowDialog();
+		}
+
+		private void EliminarProducto(int idProducto)
+		{
+			// Verificar si el producto está en uso
+			string[] queries = new string[]
+			{
+				$"SELECT ID_detallevp FROM venta_producto WHERE ID_producto_vp = {idProducto}",
+				$"SELECT ID_detallepp FROM pedido_producto WHERE ID_producto_pp = {idProducto}",
+				$"SELECT ID_detallemp FROM material_producto WHERE ID_producto_mp = {idProducto}"
+			};
+
+			foreach (string query in queries)
+			{
+				SqlCommand cm = new(query, con);
+
+				con.Open();
+				try
+				{
+					SqlDataReader dr = cm.ExecuteReader();
+
+					if (dr.Read())
+					{
+						MessageBox.Show("No se puede eliminar el producto porque está en uso");
+						con.Close();
+						dr.Close();
+						return;
+					}
+
+					con.Close();
+					dr.Close();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+					con.Close();
+				}
+			}
+
+			con.Open();
+			SqlTransaction transaction = con.BeginTransaction();
+
+			// Eliminar Materiales
+			List<MaterialProducto> materialProductos = MaterialProductoQueries
+				.ConsultarPorProducto(con, idProducto, transaction);
+
+			bool exito = MaterialProductoQueries
+				.EliminarMaterial(materialProductos, con, transaction);
+
+			if (!exito)
+			{
+				transaction.Rollback();
+				con.Close();
+				return;
+			}
+
+			// Eliminar Producto
+			string deleteQuery = $"DELETE FROM producto WHERE ID_producto = {idProducto}";
+			SqlCommand deleteCommand = new(deleteQuery, con, transaction);
+
+			try
+			{
+				deleteCommand.ExecuteNonQuery();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				transaction.Rollback();
+				con.Close();
+				return;
+			}
+
+			transaction.Commit();
+			con.Close();
+			MessageBox.Show("Registro eliminado correctamente");
+		}
+  }
 }
