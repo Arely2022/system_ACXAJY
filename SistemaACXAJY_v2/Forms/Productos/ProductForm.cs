@@ -1,5 +1,6 @@
 ﻿using System.Data.SqlClient;
 using system_ACXAJY.Entities;
+using system_ACXAJY.Queries;
 
 namespace system_ACXAJY
 {
@@ -98,22 +99,42 @@ namespace system_ACXAJY
                 }
 
                 con.Open();
+				SqlTransaction transaction = con.BeginTransaction();
 
-                string query = $"DELETE FROM producto WHERE ID_producto LIKE '{dgvProducts.Rows[e.RowIndex].Cells[0].Value}'";
-                SqlCommand cm = new SqlCommand(query, con);
+				int idProducto = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells[0].Value);
+
+				// Eliminar Materiales
+				List<MaterialProducto> materialProductos = MaterialProductoQueries
+					.ConsultarPorProducto(con, idProducto, transaction);
+
+				bool exito = MaterialProductoQueries
+					.EliminarMaterial(materialProductos, con, transaction);
+
+				if (!exito)
+				{
+					transaction.Rollback();
+					con.Close();
+					return;
+				}
+
+				// Eliminar Producto
+                string query = $"DELETE FROM producto WHERE ID_producto = {idProducto}";
+                SqlCommand cm = new(query, con, transaction);
 
                 try
                 {
                     cm.ExecuteNonQuery();
-                    con.Close();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+					transaction.Rollback();
                     con.Close();
                     return;
                 }
 
+				transaction.Commit();
+				con.Close();
                 MessageBox.Show("Registro eliminado correctamente");
             }
             LoadProducto();
