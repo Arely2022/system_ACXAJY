@@ -79,10 +79,10 @@ namespace system_ACXAJY
                 while (dr.Read())
                 {
                     Producto product = new Producto();
-                    product.Idproducto = Convert.ToInt32(dr[0].ToString());
+                    product.IdProducto = Convert.ToInt32(dr[0].ToString());
                     product.NombreProducto = dr[1].ToString();
-                    product.Idcategoria = Convert.ToInt32(dr[2].ToString());
-                    product.precioProd = float.Parse(dr[3].ToString());
+                    product.IdCategoria = Convert.ToInt32(dr[2].ToString());
+                    product.PrecioProducto = float.Parse(dr[3].ToString());
                     ListaProducto.Add(product);
                 }
             }
@@ -104,10 +104,10 @@ namespace system_ACXAJY
             foreach (VentaProducto ventaProducto in ventaproducto)
             {
                 Producto producto = ListaProducto
-                    .Where(p => p.Idproducto == ventaProducto.Idproductovp)
+                    .Where(p => p.IdProducto == ventaProducto.Idproductovp)
                     .FirstOrDefault()!;
 
-                float precioprod = producto.precioProd;
+                float precioprod = producto.PrecioProducto;
                 string nombreprod = producto.NombreProducto;
 
                 ListaVentaProductoActual.Add(ventaProducto);
@@ -129,8 +129,8 @@ namespace system_ACXAJY
             lblVID.Text = venta.IdVenta.ToString();
             txtTotalPagar.Text = venta.TotalVenta.ToString();
             dTimeVenta.Text = venta.FechaVenta.ToString();
-            
-            
+
+
 
             // 2. Consultar los productos del pedido
             LoadVentaProducto(venta.IdVenta);
@@ -145,13 +145,13 @@ namespace system_ACXAJY
         {
             VentaProducto ventaProducto = new VentaProducto();
             Producto SelectedProd = coBoxProd.SelectedItem as Producto;
-            ventaProducto.Idproductovp = SelectedProd.Idproducto;
+            ventaProducto.Idproductovp = SelectedProd.IdProducto;
             ventaProducto.cantprodvp = Convert.ToInt32(txtCantP.Text);
-            
-            ListaVentaProductoActual.Add(ventaProducto);
-            dgvSeleccionProd.Rows.Add(0, SelectedProd.NombreProducto, ventaProducto.cantprodvp, SelectedProd.precioProd);
 
-            double total = (Convert.ToDouble(SelectedProd.precioProd) * Convert.ToDouble(txtCantP.Text));
+            ListaVentaProductoActual.Add(ventaProducto);
+            dgvSeleccionProd.Rows.Add(0, SelectedProd.NombreProducto, ventaProducto.cantprodvp, SelectedProd.PrecioProducto);
+
+            double total = (Convert.ToDouble(SelectedProd.PrecioProducto) * Convert.ToDouble(txtCantP.Text));
             txtTotalPagar.Text = total.ToString();
 
             coBoxCateg.SelectedIndex = -1;
@@ -311,7 +311,7 @@ namespace system_ACXAJY
 
             Categoria categoria = (Categoria)coBoxCateg.SelectedItem;
 
-            List<Producto> productosCategoria = ListaProducto.Where(p => p.Idcategoria == categoria.Idcategoria).ToList();
+            List<Producto> productosCategoria = ListaProducto.Where(p => p.IdCategoria == categoria.Idcategoria).ToList();
             foreach (Producto producto in productosCategoria)
             {
                 coBoxProd.Items.Add(producto);

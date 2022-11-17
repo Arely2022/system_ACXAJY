@@ -64,17 +64,17 @@ namespace system_ACXAJY
 
         private void LoadPedidoProducto(int idpedido)
         {
-            
+
             con.Open();
 
             List<PedidoProducto> pedidoProductos = PedidoProductoQueries.ConsultarPorPedido(con, idpedido);
             foreach (PedidoProducto pedidoProducto in pedidoProductos)
             {
                 Producto producto = ListaProducto
-                    .Where(p => p.Idproducto == pedidoProducto.Idproductopp)
+                    .Where(p => p.IdProducto == pedidoProducto.Idproductopp)
                     .FirstOrDefault()!;
 
-                float precioprod = producto.precioProd;
+                float precioprod = producto.PrecioProducto;
                 string nombreprod = producto.NombreProducto;
 
                 ListaPedidoProductoActual.Add(pedidoProducto);
@@ -97,13 +97,13 @@ namespace system_ACXAJY
         {
             PedidoProducto pedidoProducto = new PedidoProducto();
             Producto SelectedProd = coBoxProd.SelectedItem as Producto;
-            pedidoProducto.Idproductopp=SelectedProd.Idproducto;
+            pedidoProducto.Idproductopp=SelectedProd.IdProducto;
             pedidoProducto.cantprod= Convert.ToInt32(txtCantP.Text);
             pedidoProducto.caractprod= txtPCarac.Text;
             ListaPedidoProductoActual.Add(pedidoProducto);
-            dgvSeleccionProd.Rows.Add(0, SelectedProd.NombreProducto, pedidoProducto.cantprod, pedidoProducto.caractprod, SelectedProd.precioProd);
+            dgvSeleccionProd.Rows.Add(0, SelectedProd.NombreProducto, pedidoProducto.cantprod, pedidoProducto.caractprod, SelectedProd.PrecioProducto);
 
-            double total = (Convert.ToDouble(SelectedProd.precioProd) * Convert.ToDouble(txtCantP.Text));
+            double total = (Convert.ToDouble(SelectedProd.PrecioProducto) * Convert.ToDouble(txtCantP.Text));
             txtTotalPagar.Text = total.ToString();
 
             coBoxCateg.SelectedIndex=-1;
@@ -179,7 +179,7 @@ namespace system_ACXAJY
                     ListaPedidoProductoActual,
                     con,
                     transaction);
-                
+
                 if (agregados == false) {
                     transaction.Rollback();
                     con.Close();
@@ -199,7 +199,7 @@ namespace system_ACXAJY
         {
             coBoxCateg.Items.Clear();
             coBoxCateg.DisplayMember = "NombreCategoria";
-            
+
             cm = new SqlCommand("SELECT ID_categoria, nombre_categ FROM categoria", con);
             try{
                 con.Open();
@@ -213,7 +213,7 @@ namespace system_ACXAJY
 
                 }
             }
-            
+
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -229,7 +229,7 @@ namespace system_ACXAJY
         {
             coBoxProd.Items.Clear();
             coBoxProd.DisplayMember = "NombreProducto";
-            cm = new SqlCommand("SELECT ID_producto, nombre_prod, ID_categoriaprod, precio_prod FROM producto ", con);  
+            cm = new SqlCommand("SELECT ID_producto, nombre_prod, ID_categoriaprod, precio_prod FROM producto ", con);
             try
             {
                 con.Open();
@@ -237,10 +237,10 @@ namespace system_ACXAJY
                 while (dr.Read())
                 {
                     Producto product = new Producto();
-                    product.Idproducto = Convert.ToInt32(dr[0].ToString());
+                    product.IdProducto = Convert.ToInt32(dr[0].ToString());
                     product.NombreProducto = dr[1].ToString();
-                    product.Idcategoria = Convert.ToInt32(dr[2].ToString());
-                    product.precioProd = float.Parse(dr[3].ToString());
+                    product.IdCategoria = Convert.ToInt32(dr[2].ToString());
+                    product.PrecioProducto = float.Parse(dr[3].ToString());
                     ListaProducto.Add(product);
 
                 }
@@ -330,13 +330,13 @@ namespace system_ACXAJY
 
             Categoria categoria = (Categoria)coBoxCateg.SelectedItem;
 
-            List<Producto> productosCategoria = ListaProducto.Where(p=>p.Idcategoria==categoria.Idcategoria).ToList();
+            List<Producto> productosCategoria = ListaProducto.Where(p=>p.IdCategoria==categoria.Idcategoria).ToList();
             foreach(Producto producto in productosCategoria)
             {
                 coBoxProd.Items.Add(producto);
             }
         }
-        
+
         //Habilita elimiado detalle de pedido
         private void dgvSeleccionProd_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

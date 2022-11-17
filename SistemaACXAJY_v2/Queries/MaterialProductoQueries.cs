@@ -3,165 +3,166 @@ using system_ACXAJY.Entities;
 
 namespace system_ACXAJY.Queries;
 
-public class MaterialProductoQueries
+public static class MaterialProductoQueries
 {
-		public static bool AgregarMaterial(
-			int IdMaterial,
-			List<MaterialProducto> NuevosMaterial,
-			SqlConnection con,
-			SqlTransaction transaction)
-		{
-				SqlCommand? cm = null;
+  public static bool AgregarMaterial(
+    int IdProducto,
+    List<MaterialProducto> NuevosMaterial,
+    SqlConnection con,
+    SqlTransaction transaction)
+  {
+    foreach (MaterialProducto materialProducto in NuevosMaterial)
+    {
+      // 1. Agregar registros a la tabla PedidoProducto
+      // TODO: 2022-11-16 -> Actualizar consulta. Cambiar IdMaterial por IdProducto
+      const string insertQuery = @"
+        INSERT INTO material_producto (ID_material_mp, ID_producto_mp, cantmat_mp, preciomat_mp)
+        VALUES(@ID_material_mp, @ID_producto_mp, @cantmat_mp, @preciomat_mp)";
 
-				foreach (MaterialProducto materialProducto in NuevosMaterial)
-				{
-						// 1. Agregar registros a la tabla PedidoProducto
-						cm = new SqlCommand(@"
-								INSERT INTO material_producto (ID_material_mp, ID_producto_mp, cantmat_mp, preciomat_mp)
-								VALUES(@ID_material_mp, @ID_producto_mp, @cantmat_mp, @preciomat_mp)", con, transaction);
+      SqlCommand cm = new(insertQuery, con, transaction);
+      cm.Parameters.AddWithValue("@ID_material_mp", IdProducto);
+      cm.Parameters.AddWithValue("@ID_producto_mp", materialProducto.Idproductomp);
+      cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
+      cm.Parameters.AddWithValue("@preciomat_mp", materialProducto.PrecioMaterialmp);
 
-						cm.Parameters.AddWithValue("@ID_material_mp", IdMaterial);
-						cm.Parameters.AddWithValue("@ID_producto_mp", materialProducto.Idproductomp);
-						cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
-						cm.Parameters.AddWithValue("@preciomat_mp", materialProducto.PrecioMaterialmp);
+      try
+      {
+        cm.ExecuteNonQuery();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+        return false;
+      }
 
-						try
-						{
-								cm.ExecuteNonQuery();
-						}
-						catch (Exception ex)
-						{
-								MessageBox.Show(ex.Message);
-								return false;
-						}
+      // 2. Obtener la cantidad actual del producto y validar que sea mayor a la cantidad del pedido
+      string selectQuery = $"SELECT cantidad_mat FROM material WHERE Id_material = {materialProducto.Idmaterialmp}";
+      cm = new(selectQuery, con, transaction);
 
-						// 2. Obtener la cantidad actual del producto y validar que sea mayor a la cantidad del pedido
-						cm = new SqlCommand($"SELECT cantidad_mat FROM material WHERE Id_material = {materialProducto.Idmaterialmp}", con, transaction);
-						object? returnObj = null;
-						try
-						{
-								returnObj = cm.ExecuteScalar();
-						}
-						catch (Exception ex)
-						{
-								MessageBox.Show(ex.Message);
-								return false;
-						}
+      int cantidadActual;
+      try
+      {
+        object? returnObj = cm.ExecuteScalar();
+        cantidadActual = int.Parse(returnObj!.ToString()!);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+        return false;
+      }
 
-						int cantidadActual = 0;
+      if (cantidadActual < materialProducto.CantMaterialmp)
+      {
+        // TODO: 2022-11-15 -> Incluir el nombre del producto en el mensaje
+        MessageBox.Show("Cantidad excede disponible en inventario");
+        return false;
+      }
 
-						if (returnObj != null)
-						{
-								int.TryParse(returnObj.ToString(), out cantidadActual);
-						}
+      // 3. Actualizar el inventario
+      string updateQuery = $@"
+        UPDATE material
+        SET cantidad_mat=(cantidad_mat-@cantmat_mp)
+        WHERE ID_material = '{materialProducto.Idmaterialmp}'";
 
-						if (cantidadActual < materialProducto.CantMaterialmp)
-						{
-								// TODO: 2022-11-15 -> Incluir el nombre del producto en el mensaje
-								
-								
-								MessageBox.Show("Cantidad excede disponible en inventario");
-								return false;
-						}
+      cm = new(updateQuery, con, transaction);
+      cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
 
-						// 3. Actualizar el inventario
-						cm = new SqlCommand(@"
-								UPDATE material
-								SET cantidad_mat=(cantidad_mat-@cantmat_mp)
-								WHERE ID_material = '" + materialProducto.Idmaterialmp + "'", con, transaction);
-						cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
+      try
+      {
+        cm.ExecuteNonQuery();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+        return false;
+      }
+    }
 
-						try
-						{
-								cm.ExecuteNonQuery();
-						}
-						catch (Exception ex)
-						{
-								MessageBox.Show(ex.Message);
-								return false;
-						}
-				}
+    return true;
+  }
 
-				return true;
-		}
+  public static bool EliminarMaterial(
+    List<MaterialProducto> materialesEliminados,
+    SqlConnection con,
+    SqlTransaction transaction)
+  {
+    foreach (MaterialProducto materialProducto in materialesEliminados)
+    {
+      // 1. Se elimina el producto del pedido
+      string deleteQuery = $"DELETE FROM material_producto WHERE ID_detallemp = {materialProducto.Iddetallemp}";
+      SqlCommand cm = new(deleteQuery, con, transaction);
 
-		public static bool EliminarMaterial(
-			List<MaterialProducto> materialesEliminados,
-			SqlConnection con,
-			SqlTransaction transaction)
-		{
-				SqlCommand? cm = null;
+      try
+      {
+        cm.ExecuteNonQuery();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+        return false;
+      }
 
-				foreach (MaterialProducto materialProducto in materialesEliminados)
-				{
-						// 1. Se elimina el producto del pedido
-						cm = new SqlCommand("DELETE FROM material_producto WHERE ID_detallemp ="+ materialProducto.Iddetallemp, con, transaction);
-						try
-						{
-								cm.ExecuteNonQuery();
-						}
-						catch(Exception ex)
-						{
-								MessageBox.Show(ex.Message);
-								return false;
-						}
+      // 2. Se devuelve la cantidad del producto al inventario
+      string updateQuery = @$"
+        UPDATE material
+        SET cantidad_mat=(cantidad_mat+@cantmat_mp)
+        WHERE ID_material = '{materialProducto.Idmaterialmp}'";
 
-						// 2. Se devuelve la cantidad del producto al inventario
-						cm = new SqlCommand(@"
-								UPDATE material
-								SET cantidad_mat=(cantidad_mat+@cantmat_mp)
-								WHERE ID_material = '" + materialProducto.Idmaterialmp + "'", con, transaction);
-						cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
+      cm = new SqlCommand(updateQuery, con, transaction);
+      cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
 
-						try
-						{
-								cm.ExecuteNonQuery();
-						}
-						catch(Exception ex)
-						{
-								MessageBox.Show(ex.Message);
-								return false;
-						}
-				}
+      try
+      {
+        cm.ExecuteNonQuery();
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+        return false;
+      }
+    }
 
-				return true;
-		}
+    return true;
+  }
 
-		public static List<MaterialProducto> ConsultarPorProducto(SqlConnection con, int idproducto, float preciomat_mp, SqlTransaction? transaction = null)
-		{
-			SqlCommand cm = null;
-			SqlDataReader dr = null;
+  public static List<MaterialProducto> ConsultarPorProducto(
+    SqlConnection con,
+    int idproducto,
+    SqlTransaction? transaction = null)
+  {
+    List<MaterialProducto> materialProductos = new();
 
-			List<MaterialProducto> materialProductos = new();
-			
-			cm = new SqlCommand(@"
-                SELECT ID_detallemp, Id_material_mp, ID_producto_mp, cantmat_mp
-                FROM material_producto
-                WHERE ID_material_mp=" + idproducto, con, transaction);
+    string selectQuery = @$"
+      SELECT ID_detallemp, Id_material_mp, ID_producto_mp, cantmat_mp
+      FROM material_producto
+      WHERE ID_material_mp={idproducto}";
 
-            try{
-                dr = cm.ExecuteReader();
+    SqlCommand cm = new(selectQuery, con, transaction);
 
-                while (dr.Read())
-                {
-                    MaterialProducto materialProducto = new MaterialProducto();
-                materialProducto.Iddetallemp = Convert.ToInt32(dr[0].ToString());
-                materialProducto.Idmaterialmp = Convert.ToInt32(dr[1].ToString());
-                materialProducto.Idproductomp = Convert.ToInt32(dr[2].ToString());
-                materialProducto.CantMaterialmp = Convert.ToInt32(dr[3].ToString());
-                materialProducto.PrecioMaterialmp = float.Parse(dr[4].ToString());
-                materialProductos.Add(materialProducto);
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                dr.Close();
-            }
+    try
+    {
+      SqlDataReader dr = cm.ExecuteReader();
 
-					return materialProductos;
-		}
+      while (dr.Read())
+      {
+        MaterialProducto materialProducto = new()
+        {
+          Iddetallemp = Convert.ToInt32(dr[0].ToString()),
+          Idmaterialmp = Convert.ToInt32(dr[1].ToString()),
+          Idproductomp = Convert.ToInt32(dr[2].ToString()),
+          CantMaterialmp = Convert.ToInt32(dr[3].ToString()),
+          PrecioMaterialmp = float.Parse(dr[4].ToString()!)
+        };
+        materialProductos.Add(materialProducto);
+      }
+
+      dr.Close();
+    }
+    catch (Exception ex)
+    {
+      MessageBox.Show(ex.Message);
+    }
+
+    return materialProductos;
+  }
 }

@@ -51,10 +51,10 @@ namespace system_ACXAJY
                     Material nombrematerial = coBoxMaterial.SelectedItem as Material;
                     cm.Parameters.AddWithValue("@ID_material_mp", nombrematerial.Idmaterial);
                     Producto Idproducto = new Producto();
-                    cm.Parameters.AddWithValue("@ID_producto_mp", Idproducto.Idproducto);
+                    cm.Parameters.AddWithValue("@ID_producto_mp", Idproducto.IdProducto);
                     cm.Parameters.AddWithValue("@cantmat_mp", Convert.ToInt16(txtCant.Text));
                     cm.Parameters.AddWithValue("@preciomat_mp", Convert.ToInt16(txtCostoUnitario.Text));
-                   
+
 
                     con.Open();
                     cm.ExecuteNonQuery();
@@ -67,7 +67,7 @@ namespace system_ACXAJY
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
         public void LoadMaterial()
         {

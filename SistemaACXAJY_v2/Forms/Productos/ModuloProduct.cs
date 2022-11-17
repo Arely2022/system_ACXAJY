@@ -1,330 +1,362 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using System.Data.SqlClient;
 using system_ACXAJY.Entities;
 using system_ACXAJY.Queries;
-using System.Transactions;
 
 namespace system_ACXAJY
 {
-    public partial class ModuloProduct : Form
-    {
-        SqlConnection con = new SqlConnection(@"Data Source=CMX-TST-3XA7HYU\SQLEXPRESS;Initial Catalog=System_ACXAJY;Integrated Security=True");
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
-        List<Material> ListaMaterial = new List<Material>();
-        List<MaterialProducto> ListaMaterialProductoActual = new List<MaterialProducto>();
-        List<MaterialProducto> ListaMaterialProductoOriginal = new List<MaterialProducto>();
-        public Material material = null;
-        public Producto producto = null;
-        public ModuloProduct()
-        {
-            InitializeComponent();
-            LoadCategoria();
-            LoadMaterial();
-        }
-        
-        private void pictureBoxExit_Click(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
+  public partial class ModuloProduct : Form
+  {
+	private readonly SqlConnection con = new(@"Data Source=CMX-TST-3XA7HYU\SQLEXPRESS;Initial Catalog=System_ACXAJY;Integrated Security=True");
+	private SqlCommand? cm;
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                
+	private readonly List<Material> _listaMaterial = new();
+	private readonly List<Categoria> _listaCategoria = new();
+	private readonly List<MaterialProducto> _listaMaterialProductoActual = new();
+	private readonly List<MaterialProducto> _listaMaterialProductoOriginal = new();
+	private readonly Producto _producto;
 
-                if (MessageBox.Show("¿Guardar registro?", "Registro Guardado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    con.Open();
-                    SqlTransaction transaction = con.BeginTransaction();
+	public ModuloProduct(Producto? producto = null)
+	{
+	  InitializeComponent();
+	  LoadCategoria();
+	  LoadMaterial();
 
-                    cm = new SqlCommand(@"
-                        INSERT INTO producto (nombre_prod, desc_prod, precio_prod, cantidad_prod, ID_categoriaprod)
-                        VALUES(@nombre_prod, @desc_prod, @precio_prod, @cantidad_prod, @ID_categoriaprod)
-                        SELECT SCOPE_IDENTITY();", con, transaction);
-                    cm.Parameters.AddWithValue("@nombre_prod", txtPName.Text);
-                    cm.Parameters.AddWithValue("@desc_prod", txtPDesc.Text);
-                    cm.Parameters.AddWithValue("@precio_prod", Convert.ToInt16(txtPPre.Text));
-                    cm.Parameters.AddWithValue("@cantidad_prod", Convert.ToInt16(txtPCant.Text));
-                    Categoria nombrecateg = coBoxCateg.SelectedItem as Categoria;
-                    cm.Parameters.AddWithValue("@ID_categoriaprod",nombrecateg.Idcategoria);
+	  if (producto == null)
+	  {
+		_producto = new Producto();
+	  }
+	  else
+	  {
+		_producto = producto;
+		LoadProducto();
+	  }
 
-                    con.Open();
-                    con.Open();
-                    cm.ExecuteNonQuery();
-                    con.Close();
-                    MessageBox.Show("Registro Guardado Correctamente");
-                    this.Dispose();
+	}
 
-                    int idProducto = 0;
-                    try
-                    {
-                        object returnObj = cm.ExecuteScalar();
-                        if (returnObj != null)
-                        {
-                            int.TryParse(returnObj.ToString(), out idProducto);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        con.Close();
-                        MessageBox.Show(ex.Message);
-                        return;
-                    }
+	public void LoadProducto()
+	{
+	  if (_producto == null)
+	  {
+		return;
+	  }
 
-                    bool agregados = MaterialProductoQueries.AgregarMaterial(
-                    idProducto,
-                    ListaMaterialProductoActual,
-                    con,
-                    transaction);
+	  // 1. Cargar información del pedido en el formulario
+	  int indexCategoria = _listaCategoria
+		.Select((c, i) => new { c, i })
+	  .FirstOrDefault(x => x.c.Idcategoria == _producto.IdCategoria)!.i;
 
-                    if (agregados == false)
-                        {
-                            transaction.Rollback();
-                            con.Close();
-                            return;
-                        }
+	  lblPID.Text = _producto.IdProducto.ToString();
+	  txtPName.Text = _producto.NombreProducto;
+	  txtPDesc.Text = _producto.DescripcionProducto;
+	  coBoxCateg.SelectedIndex = indexCategoria;
+	  txtPCant.Text = _producto.CantidadProducto.ToString();
+	  txtPPre.Text = _producto.PrecioProducto.ToString();
 
-                    transaction.Commit();
-                    con.Close();
+	  // 2. Consultar los productos del pedido
+	  LoadMaterialSeleccionado(_producto.IdProducto);
+	}
 
-                    MessageBox.Show("Registro Guardado Correctamente");
-                    this.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+	public void LoadCategoria()
+	{
+	  coBoxCateg.Items.Clear();
+	  coBoxCateg.DisplayMember = "NombreCategoria";
 
-        }
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-            con.Open();
-            SqlTransaction transaction = con.BeginTransaction();
-            try
-            {
-                if (MessageBox.Show("¿Actualizar registro?", "Actualizar registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    cm = new SqlCommand(@"UPDATE producto 
-                    SET nombre_prod=@nombre_prod, desc_prod=@desc_prod, ID_categoriaprod=@ID_categoriaprod, 
-                    precio_prod=@precio_prod, cantidad_prod=@cantidad_prod 
-                    WHERE ID_producto = '" + , con, transaction);
+	  cm = new SqlCommand("SELECT ID_categoria, nombre_categ FROM categoria", con);
+	  con.Open();
 
-                    cm.Parameters.AddWithValue("@nombre_prod", txtPName.Text);
-                    cm.Parameters.AddWithValue("@desc_prod", txtPDesc.Text);
-                    Categoria nombrecateg = coBoxCateg.SelectedItem as Categoria;
-                    cm.Parameters.AddWithValue("@ID_categoriaprod", nombrecateg.Idcategoria);
-                    cm.Parameters.AddWithValue("@precio_prod", Convert.ToInt16(txtPPre.Text));
-                    cm.Parameters.AddWithValue("@cantidad_prod", Convert.ToInt16(txtPCant.Text));
+	  SqlDataReader dr = cm.ExecuteReader();
+	  while (dr.Read())
+	  {
+		Categoria categoria = new()
+		{
+		  Idcategoria = Convert.ToInt32(dr[0].ToString()),
+		  NombreCategoria = dr[1].ToString()!
+		};
 
+		coBoxCateg.Items.Add(categoria);
+		_listaCategoria.Add(categoria);
+	  }
+	  dr.Close();
+	  con.Close();
+	}
 
-                    con.Open();
-                    cm.ExecuteNonQuery();
-                    con.Close();
-                    MessageBox.Show("Registro Actualizado Correctamente");
-                    this.Dispose();
-                    try
-                    {
-                        cm.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        transaction.Rollback();
-                        con.Close();
-                        return;
-                    }
+	public void LoadMaterial()
+	{
+	  coBoxMat.Items.Clear();
+	  coBoxMat.DisplayMember = "NombreMaterial";
 
-                    // 2. Eliminar los materiales que ya estaban
-                    bool eliminados = MaterialProductoQueries.EliminarMaterial(
-                        ListaMaterialProductoOriginal,
-                        con,
-                        transaction);
+	  con.Open();
+	  cm = new SqlCommand("SELECT ID_material, nombre_mat FROM material", con);
 
-                    if (eliminados == false)
-                    {
-                        transaction.Rollback();
-                        con.Close();
-                        return;
-                    }
+	  try
+	  {
+		SqlDataReader dr = cm.ExecuteReader();
 
-                    // 3. Agregar los nuevos productos
-                    bool agregados = MaterialProductoQueries.AgregarMaterial(
-                        material.Idmaterial,
-                        ListaMaterialProductoActual,
-                        con,
-                        transaction);
+		while (dr.Read())
+		{
+		  Material material = new()
+		  {
+			Idmaterial = Convert.ToInt32(dr[0].ToString()),
+			NombreMaterial = dr[1].ToString()!
+		  };
 
-                    if (agregados == false)
-                    {
-                        transaction.Rollback();
-                        con.Close();
-                        return;
-                    }
+		  coBoxMat.Items.Add(material);
+		  _listaMaterial.Add(material);
+		}
 
-                    transaction.Commit();
-                    con.Close();
+		con.Close();
+		dr.Close();
+	  }
+	  catch (Exception ex)
+	  {
+		MessageBox.Show(ex.Message);
+		con.Close();
+	  }
+	}
 
-                    MessageBox.Show("Pedido Actualizado");
-                    this.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-           
-        }
-        public void loadProducto()
-        {
-            if (producto == null)
-            {
-                return;
-            }
+	private void pictureBoxExit_Click(object sender, EventArgs e)
+	{
+	  this.Dispose();
+	}
 
-            // 1. Cargar información del pedido en el formulario
-            lblOID.Text = pedido.IdPedido.ToString();
-            txtCliName.Text = pedido.NomCliente;
-            cBEstado.Checked = pedido.EstadoProd;
-            txtTotalPagar.Text = pedido.TotalPedido.ToString();
-            dTimeEntrega.Text = pedido.FechaEntrega.ToString();
-            txtDir.Text = pedido.DirEntrega;
+	private void btnSave_Click(object sender, EventArgs e)
+	{
+	  if (MessageBox.Show("¿Guardar registro?", "Registro Guardado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+	  {
+		return;
+	  }
 
-            // 2. Consultar los productos del pedido
-            LoadPedidoProducto(pedido.IdPedido);
-        }
+	  con.Open();
+	  SqlTransaction transaction = con.BeginTransaction();
 
-        public void clear()
-        {
-            txtPName.Clear();
-            txtPDesc.Clear();
-            txtPCant.Clear();
-            txtPPre.Clear();
-            coBoxCateg.Text = "";
-            
-        }
+	  // Categoría seleccionada del selector
+	  Categoria nombrecateg = (Categoria)coBoxCateg.SelectedItem;
 
-        private void btnClear_Click_1(object sender, EventArgs e)
-            {
-               clear();
-               btnSave.Enabled = true;
-               btnUpdate.Enabled = false;
-            }
+	  // Agregar el producto a la base de datos
+	  cm = new(@"
+					INSERT INTO producto (nombre_prod, desc_prod, precio_prod, cantidad_prod, ID_categoriaprod)
+					VALUES(@nombre_prod, @desc_prod, @precio_prod, @cantidad_prod, @ID_categoriaprod)
+					SELECT SCOPE_IDENTITY();", con, transaction);
 
-        public void LoadCategoria()
-        {
-            coBoxCateg.Items.Clear();
-            coBoxCateg.DisplayMember= "NombreCategoria";
-            cm = new SqlCommand("SELECT ID_categoria, nombre_categ FROM categoria", con);
-            con.Open();
-            dr = cm.ExecuteReader();
-            while (dr.Read())
-            {
-                Categoria categoria = new Categoria();
-                categoria.Idcategoria = Convert.ToInt32(dr[0].ToString());
-                categoria.NombreCategoria = dr[1].ToString();
-                coBoxCateg.Items.Add(categoria);
-                
-            }
-            dr.Close();
-            con.Close();
+	  cm.Parameters.AddWithValue("@nombre_prod", txtPName.Text);
+	  cm.Parameters.AddWithValue("@desc_prod", txtPDesc.Text);
+	  cm.Parameters.AddWithValue("@precio_prod", Convert.ToInt16(txtPPre.Text));
+	  cm.Parameters.AddWithValue("@cantidad_prod", Convert.ToInt16(txtPCant.Text));
+	  cm.Parameters.AddWithValue("@ID_categoriaprod", nombrecateg.Idcategoria);
 
-        }
-        public void LoadMaterial()
-        {
-            coBoxMat.Items.Clear();
-            coBoxMat.DisplayMember = "NombreMaterial";
+	  try
+	  {
+		cm.ExecuteNonQuery();
+	  }
+	  catch (Exception ex)
+	  {
+		MessageBox.Show(ex.Message);
+		con.Close();
+		transaction.Rollback();
+		return;
+	  }
 
-            cm = new SqlCommand("SELECT ID_material, nombre_mat FROM material", con);
-            try
-            {
-                con.Open();
-                dr = cm.ExecuteReader();
-                while (dr.Read())
-                {
-                    Material material = new Material();
-                    material.Idmaterial = Convert.ToInt32(dr[0].ToString());
-                    material.NombreMaterial = dr[1].ToString();
-                    coBoxMat.Items.Add(material);
+	  // Obtener el ID del producto recién agregado
+	  int idProducto;
+	  try
+	  {
+		object returnObj = cm.ExecuteScalar();
+		idProducto = int.Parse(returnObj!.ToString()!);
+	  }
+	  catch (Exception ex)
+	  {
+		transaction.Rollback();
+		con.Close();
+		MessageBox.Show(ex.Message);
+		return;
+	  }
 
-                }
-            }
+	  // Agregar el material a la tabla material_producto
+	  bool agregados = MaterialProductoQueries.AgregarMaterial(
+		idProducto,
+		_listaMaterialProductoActual,
+		con,
+		transaction);
 
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-                dr.Close();
-            }
-        }
+	  if (!agregados)
+	  {
+		transaction.Rollback();
+		con.Close();
+		return;
+	  }
 
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            MaterialProducto materialProducto = new MaterialProducto();
-            Material SelectedMat = coBoxMat.SelectedItem as Material;
-            materialProducto.Idproductomp = SelectedMat.Idmaterial;
-            materialProducto.CantMaterialmp = Convert.ToInt32(txtcantMaterial.Text);
-            float preciomat_mp = (Convert.ToInt32(materialProducto.CantMaterialmp)) * (Convert.ToInt32(SelectedMat.PrecioMaterial));
-            materialProducto.PrecioMaterialmp = preciomat_mp;
+	  transaction.Commit();
+	  con.Close();
 
-                ListaMaterialProductoActual.Add(materialProducto);
-            dgvSeleccionMat.Rows.Add(0, SelectedMat.NombreMaterial, materialProducto.CantMaterialmp, materialProducto.PrecioMaterialmp);
+	  MessageBox.Show("Registro Guardado Correctamente");
+	  Dispose();
 
-            // Revisar función costo/precio
-            double total = (Convert.ToDouble(SelectedMat.PrecioMaterial) * Convert.ToDouble(txtcantMaterial.Text));
-            txtCosto.Text = total.ToString();
+	}
+	private void btnUpdate_Click(object sender, EventArgs e)
+	{
+	  if (MessageBox.Show("¿Actualizar registro?", "Actualizar registro", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+	  {
+		return;
+	  }
 
-            coBoxMat.SelectedIndex = -1;
-            txtcantMaterial.Clear();
-        }
-        public void LoadMaterialSeleccionado()
-        {
-            dgvSeleccionMat.Rows.Clear();
-            cm = new SqlCommand(@"
-                SELECT ID_detallemp, nombre_mat, cantmat_mp, precio_mat
-                FROM material_producto
-                INNER JOIN producto ON ID_producto_mp = ID_producto", con);
+	  con.Open();
+	  SqlTransaction transaction = con.BeginTransaction();
 
-            try
-            {
-                con.Open();
-                dr = cm.ExecuteReader();
-                while (dr.Read())
-                {
+	  // Categoría seleccionada
+	  if (coBoxCateg.SelectedItem is not Categoria categoria)
+	  {
+		MessageBox.Show("Seleccione una categoría");
+		return;
+	  }
 
-                    dgvSeleccionMat.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                dr.Close();
-                con.Close();
-            }
+	  // Actualizar el producto
+	  string updateQuery = @$"
+				UPDATE producto
+				SET nombre_prod=@nombre_prod, desc_prod=@desc_prod, ID_categoriaprod=@ID_categoriaprod,
+				precio_prod=@precio_prod, cantidad_prod=@cantidad_prod
+				WHERE ID_producto = '{1}'";
 
-        }
+	  cm = new SqlCommand(updateQuery, con, transaction);
+	  cm.Parameters.AddWithValue("@nombre_prod", txtPName.Text);
+	  cm.Parameters.AddWithValue("@desc_prod", txtPDesc.Text);
+	  cm.Parameters.AddWithValue("@ID_categoriaprod", categoria.Idcategoria);
+	  cm.Parameters.AddWithValue("@precio_prod", Convert.ToInt16(txtPPre.Text));
+	  cm.Parameters.AddWithValue("@cantidad_prod", Convert.ToInt16(txtPCant.Text));
 
-        private void dgvSeleccionMat_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            ListaMaterialProductoActual.RemoveAt(e.RowIndex);
-            dgvSeleccionMat.Rows.RemoveAt(e.RowIndex);
-        }
-    }
+	  try
+	  {
+		cm.ExecuteNonQuery();
+	  }
+	  catch (Exception ex)
+	  {
+		MessageBox.Show(ex.Message);
+		transaction.Rollback();
+		con.Close();
+		return;
+	  }
+
+	  // Eliminar los materiales existentes de material_producto
+	  bool eliminados = MaterialProductoQueries.EliminarMaterial(
+	  _listaMaterialProductoOriginal,
+	  con,
+	  transaction);
+
+	  if (!eliminados)
+	  {
+		transaction.Rollback();
+		con.Close();
+		return;
+	  }
+
+	  // Agregar los nuevos productos
+	  bool agregados = MaterialProductoQueries.AgregarMaterial(
+	  _producto.IdProducto,
+	  _listaMaterialProductoActual,
+	  con,
+	  transaction);
+
+	  if (!agregados)
+	  {
+		transaction.Rollback();
+		con.Close();
+		return;
+	  }
+
+	  // Finalizar transacción
+	  transaction.Commit();
+	  con.Close();
+
+	  MessageBox.Show("Pedido Actualizado");
+	  Dispose();
+	}
+
+	public void Clear()
+	{
+	  txtPName.Clear();
+	  txtPDesc.Clear();
+	  txtPCant.Clear();
+	  txtPPre.Clear();
+	  coBoxCateg.Text = "";
+
+	}
+
+	private void btnClear_Click_1(object sender, EventArgs e)
+	{
+	  Clear();
+	  btnSave.Enabled = true;
+	  btnUpdate.Enabled = false;
+	}
+
+	private void btnAdd_Click(object sender, EventArgs e)
+	{
+	  if (coBoxMat.SelectedIndex == -1)
+	  {
+		MessageBox.Show("Seleccione un material");
+		return;
+	  }
+
+	  Material SelectedMat = (Material)coBoxMat.SelectedItem;
+
+	  MaterialProducto materialProducto = new()
+	  {
+		// TODO: 2022-11-16 -> Esta propiedad es el id de material?
+		Idproductomp = SelectedMat.Idmaterial,
+		CantMaterialmp = Convert.ToInt32(txtcantMaterial.Text),
+	  };
+	  materialProducto.PrecioMaterialmp = materialProducto.CantMaterialmp * SelectedMat.PrecioMaterial;
+
+	  // Agregar material a la lista de materiales del producto
+	  _listaMaterialProductoActual.Add(materialProducto);
+
+	  // Agregar material al datagrid de materiales
+	  dgvSeleccionMat.Rows.Add(0, SelectedMat.NombreMaterial, materialProducto.CantMaterialmp, materialProducto.PrecioMaterialmp);
+
+	  // Sumar el precio del material al precio total del producto
+	  double total = Convert.ToDouble(txtCosto.Text);
+	  total += SelectedMat.PrecioMaterial * Convert.ToDouble(txtcantMaterial.Text);
+
+	  // Actualizar el precio total del producto
+	  txtCosto.Text = total.ToString();
+
+	  // Limpiar campos de material
+	  coBoxMat.SelectedIndex = -1;
+	  txtcantMaterial.Clear();
+	}
+
+	public void LoadMaterialSeleccionado(int idProducto)
+	{
+	  dgvSeleccionMat.Rows.Clear();
+
+	  con.Open();
+	  cm = new SqlCommand(@$"
+				SELECT ID_detallemp, nombre_mat, cantmat_mp, precio_mat
+				FROM material_producto
+				INNER JOIN producto ON ID_producto_mp = {idProducto}", con);
+
+	  try
+	  {
+		SqlDataReader dr = cm.ExecuteReader();
+
+		while (dr.Read())
+		{
+		  dgvSeleccionMat.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString());
+		}
+
+		dr.Close();
+		con.Close();
+	  }
+	  catch (Exception ex)
+	  {
+		MessageBox.Show(ex.Message);
+		con.Close();
+	  }
+	}
+
+	private void dgvSeleccionMat_CellContentClick(object sender, DataGridViewCellEventArgs e)
+	{
+	  _listaMaterialProductoActual.RemoveAt(e.RowIndex);
+	  dgvSeleccionMat.Rows.RemoveAt(e.RowIndex);
+	}
+  }
 }
