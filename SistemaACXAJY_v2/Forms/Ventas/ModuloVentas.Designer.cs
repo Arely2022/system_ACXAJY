@@ -49,15 +49,15 @@ namespace system_ACXAJY
             this.txtTotalPagar = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dgvSeleccionProd = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblVID = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.dTimeVenta = new System.Windows.Forms.DateTimePicker();
             this.ID_detallepp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nom_prod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cantidad_p = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.precio_p = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eliminar = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblVID = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.dTimeVenta = new System.Windows.Forms.DateTimePicker();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExit)).BeginInit();
             this.panel1.SuspendLayout();
@@ -289,6 +289,48 @@ namespace system_ACXAJY
             this.dgvSeleccionProd.TabIndex = 72;
             this.dgvSeleccionProd.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSeleccionProd_CellContentClick);
             // 
+            // ID_detallepp
+            // 
+            this.ID_detallepp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ID_detallepp.HeaderText = "Número";
+            this.ID_detallepp.MinimumWidth = 8;
+            this.ID_detallepp.Name = "ID_detallepp";
+            this.ID_detallepp.Visible = false;
+            this.ID_detallepp.Width = 150;
+            // 
+            // nom_prod
+            // 
+            this.nom_prod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nom_prod.HeaderText = "Nombre";
+            this.nom_prod.MinimumWidth = 8;
+            this.nom_prod.Name = "nom_prod";
+            // 
+            // cantidad_p
+            // 
+            this.cantidad_p.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cantidad_p.HeaderText = "Cantidad";
+            this.cantidad_p.MinimumWidth = 8;
+            this.cantidad_p.Name = "cantidad_p";
+            this.cantidad_p.Width = 119;
+            // 
+            // precio_p
+            // 
+            this.precio_p.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.precio_p.HeaderText = "Precio";
+            this.precio_p.MinimumWidth = 8;
+            this.precio_p.Name = "precio_p";
+            this.precio_p.Width = 96;
+            // 
+            // eliminar
+            // 
+            this.eliminar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.eliminar.HeaderText = "";
+            this.eliminar.Image = ((System.Drawing.Image)(resources.GetObject("eliminar.Image")));
+            this.eliminar.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.eliminar.MinimumWidth = 8;
+            this.eliminar.Name = "eliminar";
+            this.eliminar.Width = 8;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -323,50 +365,8 @@ namespace system_ACXAJY
             // 
             this.dTimeVenta.Location = new System.Drawing.Point(169, 474);
             this.dTimeVenta.Name = "dTimeVenta";
-            this.dTimeVenta.Size = new System.Drawing.Size(200, 31);
+            this.dTimeVenta.Size = new System.Drawing.Size(305, 31);
             this.dTimeVenta.TabIndex = 75;
-            // 
-            // ID_detallepp
-            // 
-            this.ID_detallepp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ID_detallepp.HeaderText = "Número";
-            this.ID_detallepp.MinimumWidth = 8;
-            this.ID_detallepp.Name = "ID_detallepp";
-            this.ID_detallepp.Visible = false;
-            this.ID_detallepp.Width = 113;
-            // 
-            // nom_prod
-            // 
-            this.nom_prod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nom_prod.HeaderText = "Nombre";
-            this.nom_prod.MinimumWidth = 8;
-            this.nom_prod.Name = "nom_prod";
-            // 
-            // cantidad_p
-            // 
-            this.cantidad_p.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cantidad_p.HeaderText = "Cantidad";
-            this.cantidad_p.MinimumWidth = 8;
-            this.cantidad_p.Name = "cantidad_p";
-            this.cantidad_p.Width = 119;
-            // 
-            // precio_p
-            // 
-            this.precio_p.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.precio_p.HeaderText = "Precio";
-            this.precio_p.MinimumWidth = 8;
-            this.precio_p.Name = "precio_p";
-            this.precio_p.Width = 96;
-            // 
-            // eliminar
-            // 
-            this.eliminar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.eliminar.HeaderText = "";
-            this.eliminar.Image = ((System.Drawing.Image)(resources.GetObject("eliminar.Image")));
-            this.eliminar.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.eliminar.MinimumWidth = 8;
-            this.eliminar.Name = "eliminar";
-            this.eliminar.Width = 8;
             // 
             // ModuloVentas
             // 

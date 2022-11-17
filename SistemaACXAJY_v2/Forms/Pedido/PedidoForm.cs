@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using system_ACXAJY.Entities;
 using system_ACXAJY.Queries;
 
@@ -23,6 +14,8 @@ namespace system_ACXAJY
             InitializeComponent();
             LoadPedido();
         }
+
+        //Carga información de tabla pedido a DataReader
         public void LoadPedido()
         {
             dgvPedido.Rows.Clear();
@@ -38,6 +31,7 @@ namespace system_ACXAJY
             con.Close();
         }
 
+        //Habilita boton ADD para agregar nuevo pedido
         private void btnAdd_Click(object sender, EventArgs e)
         {
             ModuloPedidos PedidoModulo = new ModuloPedidos();
@@ -47,6 +41,7 @@ namespace system_ACXAJY
             LoadPedido();
         }
 
+        //Edita información de pedido
         private void dgvPedido_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             string colName = dgvPedido.Columns[e.ColumnIndex].Name;
@@ -54,10 +49,10 @@ namespace system_ACXAJY
             {
                 ModuloPedidos moduloPedidos = new ModuloPedidos();
                 Pedido pedido = new Pedido();
-                pedido.IdPedido = Convert.ToInt32( dgvPedido.Rows[e.RowIndex].Cells[0].Value.ToString());
+                pedido.IdPedido = Convert.ToInt32(dgvPedido.Rows[e.RowIndex].Cells[0].Value.ToString());
                 pedido.NomCliente = dgvPedido.Rows[e.RowIndex].Cells[1].Value.ToString();
                 pedido.EstadoProd = Convert.ToBoolean(dgvPedido.Rows[e.RowIndex].Cells[2].Value.ToString());
-                pedido.TotalPedido = float.Parse( dgvPedido.Rows[e.RowIndex].Cells[3].Value.ToString());
+                pedido.TotalPedido = float.Parse(dgvPedido.Rows[e.RowIndex].Cells[3].Value.ToString());
                 pedido.FechaEntrega = DateTime.Parse(dgvPedido.Rows[e.RowIndex].Cells[4].Value.ToString());
                 pedido.DirEntrega = dgvPedido.Rows[e.RowIndex].Cells[5].Value.ToString();
 
@@ -76,11 +71,12 @@ namespace system_ACXAJY
                     // 2. Iniciar transacción
                     SqlTransaction transaction = con.BeginTransaction();
                     // 3. Consultar pedido_productos del pedido seleccionado
-                    int idPedido = Convert.ToInt32( dgvPedido.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    int idPedido = Convert.ToInt32(dgvPedido.Rows[e.RowIndex].Cells[0].Value.ToString());
                     List<PedidoProducto> pedidosproductos = PedidoProductoQueries.ConsultarPorPedido(con, idPedido, transaction);
                     // 4. Eliminar registros de pedido_productos con PedidoProductoQueries.EliminarProductos()
                     bool EliminarPedido = PedidoProductoQueries.EliminarProductos(pedidosproductos, con, transaction);
-                    if(EliminarPedido==false){
+                    if (EliminarPedido == false)
+                    {
                         transaction.Rollback();
                         con.Close();
                         return;
@@ -98,7 +94,7 @@ namespace system_ACXAJY
                         con.Close();
                         return;
                     }
-                    
+
                     // 6. Transaction.Commit
                     transaction.Commit();
                     // 7. Cerrar conexión

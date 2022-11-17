@@ -97,6 +97,7 @@ namespace system_ACXAJY
             this.btnCompras.TabIndex = 17;
             this.btnCompras.Text = "Compras";
             this.btnCompras.UseVisualStyleBackColor = false;
+            this.btnCompras.Click += new System.EventHandler(this.btnCompras_Click);
             // 
             // btnPedidos
             // 

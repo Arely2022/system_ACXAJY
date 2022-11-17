@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using System.Data.SqlClient;
 using system_ACXAJY.Entities;
 using system_ACXAJY.Queries;
@@ -38,7 +30,7 @@ namespace system_ACXAJY
         public void Clear()
         {
             txtCliName.Clear();
-            cBEstado.Checked= false;
+            cBEstado.Checked = false;
             dTimeEntrega.Value = DateTime.Now;
             txtDir.Clear();
         }
@@ -97,16 +89,16 @@ namespace system_ACXAJY
         {
             PedidoProducto pedidoProducto = new PedidoProducto();
             Producto SelectedProd = coBoxProd.SelectedItem as Producto;
-            pedidoProducto.Idproductopp=SelectedProd.IdProducto;
-            pedidoProducto.cantprod= Convert.ToInt32(txtCantP.Text);
-            pedidoProducto.caractprod= txtPCarac.Text;
+            pedidoProducto.Idproductopp = SelectedProd.IdProducto;
+            pedidoProducto.cantprod = Convert.ToInt32(txtCantP.Text);
+            pedidoProducto.caractprod = txtPCarac.Text;
             ListaPedidoProductoActual.Add(pedidoProducto);
             dgvSeleccionProd.Rows.Add(0, SelectedProd.NombreProducto, pedidoProducto.cantprod, pedidoProducto.caractprod, SelectedProd.PrecioProducto);
 
             double total = (Convert.ToDouble(SelectedProd.PrecioProducto) * Convert.ToDouble(txtCantP.Text));
             txtTotalPagar.Text = total.ToString();
 
-            coBoxCateg.SelectedIndex=-1;
+            coBoxCateg.SelectedIndex = -1;
             coBoxProd.Items.Clear();
             txtPCarac.Clear();
             txtCantP.Clear();
@@ -119,7 +111,8 @@ namespace system_ACXAJY
                 FROM pedido_producto
                 INNER JOIN producto ON ID_producto_pp = ID_producto", con);
 
-            try{
+            try
+            {
                 con.Open();
                 dr = cm.ExecuteReader();
                 while (dr.Read())
@@ -128,10 +121,12 @@ namespace system_ACXAJY
                     dgvSeleccionProd.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString());
                 }
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
-            finally{
+            finally
+            {
                 dr.Close();
                 con.Close();
             }
@@ -165,7 +160,7 @@ namespace system_ACXAJY
                         int.TryParse(returnObj.ToString(), out IdPedido);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                     con.Close();
@@ -180,7 +175,8 @@ namespace system_ACXAJY
                     con,
                     transaction);
 
-                if (agregados == false) {
+                if (agregados == false)
+                {
                     transaction.Rollback();
                     con.Close();
                     return;
@@ -201,7 +197,8 @@ namespace system_ACXAJY
             coBoxCateg.DisplayMember = "NombreCategoria";
 
             cm = new SqlCommand("SELECT ID_categoria, nombre_categ FROM categoria", con);
-            try{
+            try
+            {
                 con.Open();
                 dr = cm.ExecuteReader();
                 while (dr.Read())
@@ -214,7 +211,7 @@ namespace system_ACXAJY
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -245,7 +242,7 @@ namespace system_ACXAJY
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -266,19 +263,19 @@ namespace system_ACXAJY
                 UPDATE pedido
                 SET nomcli_ped=@nomcli_ped, completado_ped=@completado_ped, total_ped=@total_ped,
                     fechaentrega_ped=@fechaentrega_ped, direntrega_ped=@direntrega_ped
-                WHERE ID_pedido ="+ pedido.IdPedido, con, transaction);
+                WHERE ID_pedido =" + pedido.IdPedido, con, transaction);
 
-                cm.Parameters.AddWithValue("@nomcli_ped", txtCliName.Text);
-                cm.Parameters.AddWithValue("@completado_ped", cBEstado.Checked);
-                cm.Parameters.AddWithValue("@total_ped", Convert.ToInt16(txtTotalPagar.Text));
-                cm.Parameters.AddWithValue("@fechaentrega_ped", dTimeEntrega.Value);
-                cm.Parameters.AddWithValue("@direntrega_ped", txtDir.Text);
+            cm.Parameters.AddWithValue("@nomcli_ped", txtCliName.Text);
+            cm.Parameters.AddWithValue("@completado_ped", cBEstado.Checked);
+            cm.Parameters.AddWithValue("@total_ped", Convert.ToInt16(txtTotalPagar.Text));
+            cm.Parameters.AddWithValue("@fechaentrega_ped", dTimeEntrega.Value);
+            cm.Parameters.AddWithValue("@direntrega_ped", txtDir.Text);
 
             try
             {
                 cm.ExecuteNonQuery();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 transaction.Rollback();
@@ -330,8 +327,8 @@ namespace system_ACXAJY
 
             Categoria categoria = (Categoria)coBoxCateg.SelectedItem;
 
-            List<Producto> productosCategoria = ListaProducto.Where(p=>p.IdCategoria==categoria.Idcategoria).ToList();
-            foreach(Producto producto in productosCategoria)
+            List<Producto> productosCategoria = ListaProducto.Where(p => p.IdCategoria == categoria.Idcategoria).ToList();
+            foreach (Producto producto in productosCategoria)
             {
                 coBoxProd.Items.Add(producto);
             }

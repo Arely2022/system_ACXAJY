@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using System.Data.SqlClient;
 using system_ACXAJY.Entities;
 using system_ACXAJY.Queries;
@@ -250,10 +242,11 @@ namespace system_ACXAJY
             // 1. Actualizar el pedido
             cm = new SqlCommand(@"
                 UPDATE venta
-                SET fecha_venta=@fecha_venta
+                SET fecha_venta=@fecha_venta, total_compra=@total_compra
                 WHERE Id_venta =" + venta.IdVenta, con, transaction);
 
             cm.Parameters.AddWithValue("@fecha_venta", dTimeVenta.Value);
+            cm.Parameters.AddWithValue("@total_compra", txtTotalPagar.Text);
 
             try
             {

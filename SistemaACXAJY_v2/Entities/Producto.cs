@@ -1,6 +1,6 @@
 ﻿namespace system_ACXAJY.Entities
 {
-  public class Producto
+    public class Producto
     {
         public int IdProducto { get; set; }
         public string NombreProducto { get; set; } = null!;

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace system_ACXAJY
+﻿namespace system_ACXAJY
 {
     public partial class MainForm : Form
     {
@@ -27,11 +17,11 @@ namespace system_ACXAJY
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Right;
             panelBase.Controls.Add(childForm);
-            panelBase.Tag= childForm;
+            panelBase.Tag = childForm;
             childForm.Show();
         }
 
-  
+
 
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
@@ -61,6 +51,11 @@ namespace system_ACXAJY
         private void btnVentas_Click(object sender, EventArgs e)
         {
             openChildForm(new VentasForm());
+        }
+
+        private void btnCompras_Click(object sender, EventArgs e)
+        {
+            openChildForm(new ComprasForm());
         }
     }
 }

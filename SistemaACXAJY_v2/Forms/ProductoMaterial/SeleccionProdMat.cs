@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using system_ACXAJY.Entities;
 
 namespace system_ACXAJY
@@ -27,7 +18,7 @@ namespace system_ACXAJY
         {
             dgvProdMat.Rows.Clear();
             cm = new SqlCommand("SELECT ID_detallemp, nombre_mat, cantidad_mat, precio_mat " +
-                "FROM material_producto INNER JOIN material ON ID_material_mp=ID_material" , con);
+                "FROM material_producto INNER JOIN material ON ID_material_mp=ID_material", con);
             con.Open();
             dr = cm.ExecuteReader();
             while (dr.Read())

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace system_ACXAJY
+﻿namespace system_ACXAJY
 {
     public partial class Form1 : Form
     {

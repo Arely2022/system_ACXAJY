@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace system_ACXAJY
 {
@@ -30,7 +21,7 @@ namespace system_ACXAJY
             dr = cm.ExecuteReader();
             while (dr.Read())
             {
-                
+
                 dgvCategorias.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString());
             }
             dr.Close();
@@ -39,7 +30,7 @@ namespace system_ACXAJY
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-           ModuloCatgoria moduloCatgoria=new ModuloCatgoria();
+            ModuloCatgoria moduloCatgoria = new ModuloCatgoria();
             moduloCatgoria.btnSave.Enabled = true;
             moduloCatgoria.btnUpdate.Enabled = false;
             moduloCatgoria.ShowDialog();
@@ -62,9 +53,9 @@ namespace system_ACXAJY
             }
             else if (colName == "eliminar")
             {
-                if(MessageBox.Show("¿Eliminar registro?", "Registro eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("¿Eliminar registro?", "Registro eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    
+
                     cm = new SqlCommand("DELETE FROM categoria WHERE ID_categoria LIKE '" + dgvCategorias.Rows[e.RowIndex].Cells[0].Value.ToString() + "'", con);
                     con.Open();
                     cm.ExecuteNonQuery();
