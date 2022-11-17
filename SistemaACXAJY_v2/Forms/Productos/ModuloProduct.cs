@@ -55,7 +55,7 @@ namespace system_ACXAJY
             // 2. Consultar los productos del pedido
             LoadMaterialSeleccionado(_producto.IdProducto);
 
-			// Sumar el precio del material al precio total del producto
+			// Calcular el costo total del producto
 			double total = _listaMaterialProductoActual.Sum(mp => mp.PrecioMaterialmp);
 			txtCosto.Text = total.ToString();
         }

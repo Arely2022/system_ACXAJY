@@ -6,9 +6,10 @@ namespace system_ACXAJY
 {
     public partial class VentasForm : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=CMX-TST-3XA7HYU\SQLEXPRESS;Initial Catalog=System_ACXAJY;Integrated Security=True");
-        SqlCommand cm = new SqlCommand();
-        SqlDataReader dr;
+        private readonly SqlConnection con = new SqlConnection(@"Data Source=CMX-TST-3XA7HYU\SQLEXPRESS;Initial Catalog=System_ACXAJY;Integrated Security=True");
+
+        private readonly List<Venta> _ventas = new();
+
         public VentasForm()
         {
             InitializeComponent();
@@ -17,16 +18,38 @@ namespace system_ACXAJY
         public void LoadVenta()
         {
             dgvVenta.Rows.Clear();
-            cm = new SqlCommand("SELECT * FROM venta", con);
-            con.Open();
-            dr = cm.ExecuteReader();
-            while (dr.Read())
-            {
+            _ventas.Clear();
 
-                dgvVenta.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString());
+            SqlCommand cm = new("SELECT * FROM venta", con);
+            SqlDataReader? dr = null;
+
+            try {
+                con.Open();
+                dr = cm.ExecuteReader();
+                while (dr.Read())
+                {
+                    Venta venta = new()
+                    {
+                        IdVenta = Convert.ToInt32(dr[0]),
+                        TotalVenta = Convert.ToDouble(dr[1]),
+                        FechaVenta = Convert.ToDateTime(dr[2]),
+                    };
+
+                    _ventas.Add(venta);
+
+                    dgvVenta.Rows.Add(
+                        venta.IdVenta,
+                        venta.TotalVenta,
+                        venta.FechaVenta);
+                }
             }
-            dr.Close();
-            con.Close();
+            catch(Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+            finally {
+                con.Close();
+                dr?.Close();
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -41,61 +64,54 @@ namespace system_ACXAJY
         private void dgvVenta_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             string colName = dgvVenta.Columns[e.ColumnIndex].Name;
+            Venta venta = _ventas[e.ColumnIndex];
+
             if (colName == "editar")
             {
-                ModuloVentas moduloVentas = new ModuloVentas();
-                Venta venta = new Venta();
-                venta.IdVenta = Convert.ToInt32(dgvVenta.Rows[e.RowIndex].Cells[0].Value.ToString());
-                venta.TotalVenta = float.Parse(dgvVenta.Rows[e.RowIndex].Cells[1].Value.ToString());
-                venta.FechaVenta = DateTime.Parse(dgvVenta.Rows[e.RowIndex].Cells[2].Value.ToString());
-
-
-                moduloVentas.venta = venta;
-                moduloVentas.LoadVenta();
+                ModuloVentas moduloVentas = new(venta);
                 moduloVentas.btnSave.Enabled = false;
                 moduloVentas.btnUpdate.Enabled = true;
                 moduloVentas.ShowDialog();
             }
             else if (colName == "eliminar")
             {
-                if (MessageBox.Show("¿Eliminar registro?", "Registro eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("¿Eliminar registro?", "Registro eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
-                    // 1. Abrir conexión
-                    con.Open();
-                    // 2. Iniciar transacción
-                    SqlTransaction transaction = con.BeginTransaction();
-                    // 3. Consultar pedido_productos del pedido seleccionado
-                    int idventa = Convert.ToInt32(dgvVenta.Rows[e.RowIndex].Cells[0].Value.ToString());
-                    List<VentaProducto> ventaProductos = VentaProductosQueries.ConsultarPorVenta(con, idventa, transaction);
-                    // 4. Eliminar registros de pedido_productos con PedidoProductoQueries.EliminarProductos()
-                    bool EliminarPedido = VentaProductosQueries.EliminarProductos(ventaProductos, con, transaction);
-                    if (EliminarPedido == false)
-                    {
-                        transaction.Rollback();
-                        con.Close();
-                        return;
-                    }
-                    // 5. Eliminar pedido
-                    cm = new SqlCommand("DELETE FROM venta WHERE Id_venta = '" + idventa + "'", con, transaction);
-                    try
-                    {
-                        cm.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        transaction.Rollback();
-                        con.Close();
-                        return;
-                    }
-
-                    // 6. Transaction.Commit
-                    transaction.Commit();
-                    // 7. Cerrar conexión
-                    con.Close();
-
-                    MessageBox.Show("Registro eliminado correctamente");
+                    return;
                 }
+
+                con.Open();
+                SqlTransaction transaction = con.BeginTransaction();
+
+                // Consultar productos de la venta
+                List<VentaProducto> ventaProductos = VentaProductosQueries.ConsultarPorVenta(con, venta.IdVenta, transaction);
+
+                // Eliminar los productos
+                bool productosEliminados = VentaProductosQueries.EliminarProductos(ventaProductos, con, transaction);
+                if (!productosEliminados)
+                {
+                    transaction.Rollback();
+                    con.Close();
+                    return;
+                }
+
+                // Eliminar pedido
+                SqlCommand cm = new($"DELETE FROM venta WHERE Id_venta = '{venta.IdVenta}'", con, transaction);
+                try
+                {
+                    cm.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    transaction.Rollback();
+                    con.Close();
+                    return;
+                }
+
+                transaction.Commit();
+                con.Close();
+                MessageBox.Show("Registro eliminado correctamente");
             }
             LoadVenta();
         }
