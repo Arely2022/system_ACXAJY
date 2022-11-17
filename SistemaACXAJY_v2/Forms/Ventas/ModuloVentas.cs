@@ -186,6 +186,11 @@ namespace system_ACXAJY
             coBoxCateg.SelectedIndex = -1;
             coBoxProd.Items.Clear();
             txtCantP.Clear();
+
+            // Sumar el precio de los productos a la venta
+			double total = Convert.ToDouble(txtTotalPagar.Text);
+			total += ventaProducto.cantprodvp * productoSeleccionado.PrecioProducto;
+			txtTotalPagar.Text = total.ToString();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -209,7 +214,7 @@ namespace system_ACXAJY
             cm.Parameters.AddWithValue("@fecha_venta", dTimeVenta.Value);
 
             // 2. Obtener el ID del pedido
-            int idVenta = 0;
+            int idVenta;
             try
             {
                 object returnObj = cm.ExecuteScalar();
@@ -327,8 +332,16 @@ namespace system_ACXAJY
 
         private void dgvSeleccionProd_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            VentaProducto ventaProducto = _listaVentaProductoActual[e.RowIndex];
+            Producto producto = _listaProducto.Find(p => p.IdProducto == ventaProducto.Idproductovp)!;
+
             _listaVentaProductoActual.RemoveAt(e.RowIndex);
             dgvSeleccionProd.Rows.RemoveAt(e.RowIndex);
+
+            // Restar el precio de los productos a la venta
+			double total = Convert.ToDouble(txtTotalPagar.Text);
+			total -= ventaProducto.cantprodvp * producto.PrecioProducto;
+			txtTotalPagar.Text = total.ToString();
         }
     }
 }

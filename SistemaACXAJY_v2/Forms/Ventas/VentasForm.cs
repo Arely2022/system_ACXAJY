@@ -43,10 +43,12 @@ namespace system_ACXAJY
                         venta.FechaVenta);
                 }
             }
-            catch(Exception ex) {
+            catch(Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
-            finally {
+            finally
+            {
                 con.Close();
                 dr?.Close();
             }
@@ -64,7 +66,7 @@ namespace system_ACXAJY
         private void dgvVenta_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             string colName = dgvVenta.Columns[e.ColumnIndex].Name;
-            Venta venta = _ventas[e.ColumnIndex];
+            Venta venta = _ventas[e.RowIndex];
 
             if (colName == "editar")
             {
