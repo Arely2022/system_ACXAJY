@@ -135,7 +135,7 @@ public static class MaterialProductoQueries
         string selectQuery = @$"
       SELECT ID_detallemp, Id_material_mp, ID_producto_mp, cantmat_mp
       FROM material_producto
-      WHERE ID_material_mp={idproducto}";
+      WHERE ID_producto_mp={idproducto}";
 
         SqlCommand cm = new(selectQuery, con, transaction);
 

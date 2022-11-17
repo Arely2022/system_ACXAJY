@@ -233,9 +233,9 @@ namespace system_ACXAJY
 
             // Eliminar los materiales existentes de material_producto
             bool eliminados = MaterialProductoQueries.EliminarMaterial(
-            _listaMaterialProductoOriginal,
-            con,
-            transaction);
+				_listaMaterialProductoOriginal,
+				con,
+				transaction);
 
             if (!eliminados)
             {
@@ -246,10 +246,10 @@ namespace system_ACXAJY
 
             // Agregar los nuevos productos
             bool agregados = MaterialProductoQueries.AgregarMaterial(
-            _producto.IdProducto,
-            _listaMaterialProductoActual,
-            con,
-            transaction);
+				_producto.IdProducto,
+				_listaMaterialProductoActual,
+				con,
+				transaction);
 
             if (!agregados)
             {
@@ -290,28 +290,41 @@ namespace system_ACXAJY
                 return;
             }
 
-            Material SelectedMat = (Material)coBoxMat.SelectedItem;
+            Material materialSeleccionado = (Material)coBoxMat.SelectedItem;
 
-            MaterialProducto materialProducto = new()
-            {
-                // TODO: 2022-11-16 -> Esta propiedad es el id de material?
-                Idproductomp = SelectedMat.Idmaterial,
-                CantMaterialmp = Convert.ToInt32(txtcantMaterial.Text),
-            };
-            materialProducto.PrecioMaterialmp = materialProducto.CantMaterialmp * SelectedMat.PrecioMaterial;
+			int cantidadMaterial = Convert.ToInt32(txtcantMaterial.Text);
+			double precio = cantidadMaterial * materialSeleccionado.PrecioMaterial;
 
-            // Agregar material a la lista de materiales del producto
-            _listaMaterialProductoActual.Add(materialProducto);
+			int? indiceMaterial = _listaMaterial.FindIndex(m => m.Idmaterial == materialSeleccionado.Idmaterial);
 
-            // Agregar material al datagrid de materiales
-            dgvSeleccionMat.Rows.Add(0, SelectedMat.NombreMaterial, materialProducto.CantMaterialmp, materialProducto.PrecioMaterialmp);
+			if (indiceMaterial == null)
+			{
+				MaterialProducto materialProducto = new()
+				{
+					Idmaterialmp = materialSeleccionado.Idmaterial,
+					CantMaterialmp = cantidadMaterial,
+					PrecioMaterialmp = precio
+				};
 
-            // Sumar el precio del material al precio total del producto
-            double total = Convert.ToDouble(txtCosto.Text);
-            total += SelectedMat.PrecioMaterial * Convert.ToDouble(txtcantMaterial.Text);
+				_listaMaterialProductoActual.Add(materialProducto);
+				dgvSeleccionMat.Rows.Add(0, materialSeleccionado.NombreMaterial, materialProducto.CantMaterialmp, materialProducto.PrecioMaterialmp);
+			}
+			else {
+				MaterialProducto materialProducto = _listaMaterialProductoActual[indiceMaterial.Value];
+				materialProducto.CantMaterialmp += cantidadMaterial;
+				materialProducto.PrecioMaterialmp += precio;
 
-            // Actualizar el precio total del producto
-            txtCosto.Text = total.ToString();
+				DataGridViewRow row = dgvSeleccionMat.Rows[indiceMaterial.Value];
+
+				row.Cells[2].Value = _listaMaterialProductoActual[indiceMaterial.Value].CantMaterialmp;
+				row.Cells[3].Value = _listaMaterialProductoActual[indiceMaterial.Value].PrecioMaterialmp;
+			}
+
+			// Sumar el precio del material al precio total del producto
+			double total = Convert.ToDouble(txtCosto.Text);
+			total += precio;
+			txtCosto.Text = total.ToString();
+
 
             // Limpiar campos de material
             coBoxMat.SelectedIndex = -1;
@@ -323,28 +336,28 @@ namespace system_ACXAJY
             dgvSeleccionMat.Rows.Clear();
 
             con.Open();
-            cm = new SqlCommand(@$"
-				SELECT ID_detallemp, nombre_mat, cantmat_mp, precio_mat
-				FROM material_producto
-				INNER JOIN producto ON ID_producto_mp = {idProducto}", con);
 
-            try
-            {
-                SqlDataReader dr = cm.ExecuteReader();
+			List<MaterialProducto> listaMaterialProducto = MaterialProductoQueries.ConsultarPorProducto(
+				con,
+				idProducto);
 
-                while (dr.Read())
-                {
-                    dgvSeleccionMat.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString());
-                }
+			foreach (MaterialProducto materialProducto in listaMaterialProducto)
+			{
+				Material material = _listaMaterial
+					.Find(m => m.Idmaterial == materialProducto.Idmaterialmp)!;
 
-                dr.Close();
-                con.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                con.Close();
-            }
+				_listaMaterialProductoActual.Add(materialProducto);
+				_listaMaterialProductoOriginal.Add(materialProducto);
+
+				// ID | Nombre | Cantidad | Costo
+				dgvSeleccionMat.Rows.Add(
+					material.Idmaterial,
+					material.NombreMaterial,
+					materialProducto.CantMaterialmp,
+					materialProducto.PrecioMaterialmp);
+			}
+
+			con.Close();
         }
 
         private void dgvSeleccionMat_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -69,7 +69,7 @@ namespace system_ACXAJY
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            ModuloProduct productmodule = new(new Producto());
+            ModuloProduct productmodule = new();
             productmodule.btnSave.Enabled = true;
             productmodule.btnUpdate.Enabled = false;
             productmodule.ShowDialog();
