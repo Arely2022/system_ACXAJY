@@ -149,18 +149,6 @@ namespace system_ACXAJY
             cm.Parameters.AddWithValue("@cantidad_prod", Convert.ToInt16(txtPCant.Text));
             cm.Parameters.AddWithValue("@ID_categoriaprod", nombrecateg.Idcategoria);
 
-            try
-            {
-                cm.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                con.Close();
-                transaction.Rollback();
-                return;
-            }
-
             // Obtener el ID del producto recién agregado
             int idProducto;
             try
@@ -214,7 +202,7 @@ namespace system_ACXAJY
 				UPDATE producto
 				SET nombre_prod=@nombre_prod, desc_prod=@desc_prod, ID_categoriaprod=@ID_categoriaprod,
 				precio_prod=@precio_prod, cantidad_prod=@cantidad_prod
-				WHERE ID_producto = '{1}'";
+				WHERE ID_producto = '{_producto.IdProducto}'";
 
             cm = new SqlCommand(updateQuery, con, transaction);
             cm.Parameters.AddWithValue("@nombre_prod", txtPName.Text);

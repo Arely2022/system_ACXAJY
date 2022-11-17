@@ -53,16 +53,16 @@ namespace system_ACXAJY
             this.coBoxMat = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.dgvSeleccionMat = new System.Windows.Forms.DataGridView();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtcantMaterial = new System.Windows.Forms.TextBox();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtCosto = new System.Windows.Forms.TextBox();
             this.ID_detallepp = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nom_prod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cantidad_p = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.costoMat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.eliminar = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtcantMaterial = new System.Windows.Forms.TextBox();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtCosto = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxExit)).BeginInit();
             this.panel1.SuspendLayout();
@@ -328,6 +328,47 @@ namespace system_ACXAJY
             this.dgvSeleccionMat.TabIndex = 64;
             this.dgvSeleccionMat.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSeleccionMat_CellContentClick);
             // 
+            // ID_detallepp
+            // 
+            this.ID_detallepp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.ID_detallepp.HeaderText = "Número";
+            this.ID_detallepp.MinimumWidth = 8;
+            this.ID_detallepp.Name = "ID_detallepp";
+            this.ID_detallepp.Width = 113;
+            // 
+            // nom_prod
+            // 
+            this.nom_prod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nom_prod.HeaderText = "Nombre";
+            this.nom_prod.MinimumWidth = 8;
+            this.nom_prod.Name = "nom_prod";
+            // 
+            // cantidad_p
+            // 
+            this.cantidad_p.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.cantidad_p.HeaderText = "Cantidad";
+            this.cantidad_p.MinimumWidth = 8;
+            this.cantidad_p.Name = "cantidad_p";
+            this.cantidad_p.Width = 119;
+            // 
+            // costoMat
+            // 
+            this.costoMat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.costoMat.HeaderText = "Costo";
+            this.costoMat.MinimumWidth = 8;
+            this.costoMat.Name = "costoMat";
+            this.costoMat.Width = 95;
+            // 
+            // eliminar
+            // 
+            this.eliminar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.eliminar.HeaderText = "";
+            this.eliminar.Image = ((System.Drawing.Image)(resources.GetObject("eliminar.Image")));
+            this.eliminar.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.eliminar.MinimumWidth = 8;
+            this.eliminar.Name = "eliminar";
+            this.eliminar.Width = 8;
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -372,52 +413,13 @@ namespace system_ACXAJY
             // 
             // txtCosto
             // 
+            this.txtCosto.Enabled = false;
             this.txtCosto.Location = new System.Drawing.Point(582, 480);
             this.txtCosto.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCosto.Name = "txtCosto";
             this.txtCosto.Size = new System.Drawing.Size(171, 31);
             this.txtCosto.TabIndex = 74;
-            // 
-            // ID_detallepp
-            // 
-            this.ID_detallepp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ID_detallepp.HeaderText = "Número";
-            this.ID_detallepp.MinimumWidth = 8;
-            this.ID_detallepp.Name = "ID_detallepp";
-            this.ID_detallepp.Width = 113;
-            // 
-            // nom_prod
-            // 
-            this.nom_prod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nom_prod.HeaderText = "Nombre";
-            this.nom_prod.MinimumWidth = 8;
-            this.nom_prod.Name = "nom_prod";
-            // 
-            // cantidad_p
-            // 
-            this.cantidad_p.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.cantidad_p.HeaderText = "Cantidad";
-            this.cantidad_p.MinimumWidth = 8;
-            this.cantidad_p.Name = "cantidad_p";
-            this.cantidad_p.Width = 119;
-            // 
-            // costoMat
-            // 
-            this.costoMat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.costoMat.HeaderText = "Costo";
-            this.costoMat.MinimumWidth = 8;
-            this.costoMat.Name = "costoMat";
-            this.costoMat.Width = 95;
-            // 
-            // eliminar
-            // 
-            this.eliminar.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.eliminar.HeaderText = "";
-            this.eliminar.Image = ((System.Drawing.Image)(resources.GetObject("eliminar.Image")));
-            this.eliminar.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.eliminar.MinimumWidth = 8;
-            this.eliminar.Name = "eliminar";
-            this.eliminar.Width = 8;
+            this.txtCosto.Text = "0";
             // 
             // ModuloProduct
             // 

@@ -11,12 +11,14 @@ namespace system_ACXAJY
         public ProductForm()
         {
             InitializeComponent();
+
             LoadProducto();
         }
 
         public void LoadProducto()
         {
             dgvProducts.Rows.Clear();
+            _listaProducto.Clear();
 
             con.Open();
 

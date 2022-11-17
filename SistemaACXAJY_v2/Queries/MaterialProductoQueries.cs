@@ -18,7 +18,7 @@ public static class MaterialProductoQueries
         VALUES(@ID_material_mp, @ID_producto_mp, @cantmat_mp, @preciomat_mp)";
 
             SqlCommand cm = new(insertQuery, con, transaction);
-            cm.Parameters.AddWithValue("@ID_material_mp", materialProducto.Idproductomp);
+            cm.Parameters.AddWithValue("@ID_material_mp", materialProducto.Idmaterialmp);
             cm.Parameters.AddWithValue("@ID_producto_mp", IdProducto);
             cm.Parameters.AddWithValue("@cantmat_mp", materialProducto.CantMaterialmp);
             cm.Parameters.AddWithValue("@preciomat_mp", materialProducto.PrecioMaterialmp);
@@ -69,7 +69,7 @@ public static class MaterialProductoQueries
         List<MaterialProducto> materialProductos = new();
 
         string selectQuery = @$"
-      SELECT ID_detallemp, Id_material_mp, ID_producto_mp, cantmat_mp
+      SELECT ID_detallemp, Id_material_mp, ID_producto_mp, cantmat_mp, preciomat_mp
       FROM material_producto
       WHERE ID_producto_mp={idproducto}";
 
