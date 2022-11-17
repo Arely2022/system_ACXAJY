@@ -6,6 +6,7 @@ namespace system_ACXAJY
     public partial class ProductForm : Form
     {
         private readonly SqlConnection con = new(@"Data Source=CMX-TST-3XA7HYU\SQLEXPRESS;Initial Catalog=System_ACXAJY;Integrated Security=True");
+		private readonly List<Producto> _listaProducto = new();
 
         public ProductForm()
         {
@@ -20,8 +21,8 @@ namespace system_ACXAJY
             con.Open();
 
             const string query = @"
-				SELECT ID_producto, nombre_prod, desc_prod,nombre_categ, cantidad_prod,precio_prod
-				FROM producto
+				SELECT ID_producto, nombre_prod, desc_prod, cantidad_prod, precio_prod, ID_categoriaprod, nombre_categ
+				FROM producto AS p
 				INNER JOIN categoria ON ID_categoriaprod = ID_categoria";
 
             SqlCommand cm = new(query, con);
@@ -32,7 +33,28 @@ namespace system_ACXAJY
 
                 while (dr.Read())
                 {
-                    dgvProducts.Rows.Add(dr[0].ToString(), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString());
+					Producto producto = new()
+					{
+						IdProducto = Convert.ToInt32(dr[0].ToString()),
+						NombreProducto = dr[1].ToString()!,
+						DescripcionProducto = dr[2].ToString()!,
+						CantidadProducto = Convert.ToInt32(dr[3].ToString()),
+						PrecioProducto = float.Parse(dr[4].ToString()!),
+						IdCategoria = Convert.ToInt32(dr[5].ToString())
+					};
+
+					string nombreCategoria = dr[6].ToString()!;
+
+					// ID | Nombre | Categoría | Descripción | Cantidad | Precio
+                    dgvProducts.Rows.Add(
+						producto.IdProducto,
+						producto.NombreProducto,
+						producto.DescripcionProducto,
+						nombreCategoria,
+						producto.CantidadProducto,
+						producto.PrecioProducto);
+
+					_listaProducto.Add(producto);
                 }
 
                 dr.Close();
@@ -59,17 +81,7 @@ namespace system_ACXAJY
             string colName = dgvProducts.Columns[e.ColumnIndex].Name;
             if (colName == "editar")
             {
-                DataGridViewRow dgvRow = dgvProducts.Rows[e.RowIndex];
-
-                Producto producto = new()
-                {
-                    IdProducto = Convert.ToInt32(dgvRow.Cells[0].Value.ToString()),
-                    NombreProducto = dgvRow.Cells[1].Value.ToString()!,
-                    DescripcionProducto = dgvRow.Cells[2].Value.ToString()!,
-                    IdCategoria = Convert.ToInt32(dgvRow.Cells[3].Value.ToString()),
-                    CantidadProducto = Convert.ToInt32(dgvRow.Cells[4].Value.ToString()),
-                    PrecioProducto = float.Parse(dgvRow.Cells[5].Value.ToString()!)
-                };
+				Producto producto = _listaProducto[e.RowIndex];
 
                 ModuloProduct productmodule = new(producto);
                 productmodule.btnSave.Enabled = false;
