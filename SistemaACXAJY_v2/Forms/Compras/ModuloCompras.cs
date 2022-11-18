@@ -42,7 +42,7 @@ namespace system_ACXAJY
             coBoxMat.DisplayMember = "NombreMaterial";
 
             SqlDataReader? dr = null;
-            SqlCommand cm = new("SELECT ID_material, nombre_mat FROM material", con);
+            SqlCommand cm = new("SELECT ID_material, nombre_mat, precio_mat FROM material", con);
             try
             {
                 con.Open();
@@ -53,7 +53,8 @@ namespace system_ACXAJY
                     Material material = new()
                     {
                         Idmaterial = Convert.ToInt32(dr[0].ToString()),
-                        NombreMaterial = dr[1].ToString()!
+                        NombreMaterial = dr[1].ToString()!,
+                        PrecioMaterial = Convert.ToDouble(dr[2].ToString())
                     };
 
                     coBoxMat.Items.Add(material);
