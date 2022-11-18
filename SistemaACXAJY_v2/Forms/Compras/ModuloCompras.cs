@@ -139,22 +139,34 @@ namespace system_ACXAJY
 
             Material materialSeleccionado = (Material)coBoxMat.SelectedItem!;
 
-            CompraMaterial compraMaterial = new()
-            {
-                idmaterialcm = materialSeleccionado.Idmaterial,
-                cantmaterialcm = Convert.ToInt32(txtCantMat.Text)
-            };
+            int indiceMaterial = _listaCompraMaterialActual.FindIndex(cm => cm.idmaterialcm == materialSeleccionado.Idmaterial);
 
-            _listaCompraMaterialActual.Add(compraMaterial);
-            dgvSeleccionMat.Rows.Add(0, materialSeleccionado.NombreMaterial, compraMaterial.cantmaterialcm, materialSeleccionado.PrecioMaterial);
+            int cantidadMaterial = Convert.ToInt32(txtCantMat.Text);
+			double precio = cantidadMaterial * materialSeleccionado.PrecioMaterial;
 
-            coBoxMat.SelectedIndex = -1;
-            txtprecioMat.Clear();
-            txtCantMat.Clear();
+			if (indiceMaterial == -1)
+			{
+                CompraMaterial compraMaterial = new()
+                {
+                    idmaterialcm = materialSeleccionado.Idmaterial,
+                    cantmaterialcm = cantidadMaterial
+                };
+
+                _listaCompraMaterialActual.Add(compraMaterial);
+                dgvSeleccionMat.Rows.Add(0, materialSeleccionado.NombreMaterial, compraMaterial.cantmaterialcm, materialSeleccionado.PrecioMaterial);
+			}
+			else {
+				CompraMaterial compraMaterial = _listaCompraMaterialActual[indiceMaterial];
+				compraMaterial.cantmaterialcm += cantidadMaterial;
+
+				DataGridViewRow row = dgvSeleccionMat.Rows[indiceMaterial];
+
+				row.Cells[1].Value = compraMaterial.cantmaterialcm;
+			}
 
             // Sumar el precio de los productos a la venta
 			double total = Convert.ToDouble(txtTotalPagar.Text);
-			total += compraMaterial.cantmaterialcm * materialSeleccionado.PrecioMaterial;
+			total += precio;
 			txtTotalPagar.Text = total.ToString();
         }
 

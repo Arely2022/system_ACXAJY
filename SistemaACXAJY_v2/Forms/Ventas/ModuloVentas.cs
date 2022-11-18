@@ -174,14 +174,30 @@ namespace system_ACXAJY
 
             Producto productoSeleccionado = (Producto)coBoxProd.SelectedItem;
 
-            VentaProducto ventaProducto = new()
-            {
-                Idproductovp = productoSeleccionado.IdProducto,
-                cantprodvp = Convert.ToInt32(txtCantP.Text)
-            };
+            int indiceProducto = _listaVentaProductoActual.FindIndex(vp => vp.Idproductovp == productoSeleccionado.IdProducto);
 
-            _listaVentaProductoActual.Add(ventaProducto);
-            dgvSeleccionProd.Rows.Add(0, productoSeleccionado.NombreProducto, ventaProducto.cantprodvp, productoSeleccionado.PrecioProducto);
+            int cantidadProducto = Convert.ToInt32(txtCantP.Text);
+			double precio = cantidadProducto * productoSeleccionado.PrecioProducto;
+
+			if (indiceProducto == -1)
+			{
+                VentaProducto ventaProducto = new()
+                {
+                    Idproductovp = productoSeleccionado.IdProducto,
+                    cantprodvp = cantidadProducto
+                };
+
+                _listaVentaProductoActual.Add(ventaProducto);
+                dgvSeleccionProd.Rows.Add(0, productoSeleccionado.NombreProducto, ventaProducto.cantprodvp, productoSeleccionado.PrecioProducto);
+			}
+			else {
+				VentaProducto ventaProducto = _listaVentaProductoActual[indiceProducto];
+				ventaProducto.cantprodvp += cantidadProducto;
+
+				DataGridViewRow row = dgvSeleccionProd.Rows[indiceProducto];
+
+				row.Cells[1].Value = ventaProducto.cantprodvp;
+			}
 
             coBoxCateg.SelectedIndex = -1;
             coBoxProd.Items.Clear();
@@ -189,7 +205,7 @@ namespace system_ACXAJY
 
             // Sumar el precio de los productos a la venta
 			double total = Convert.ToDouble(txtTotalPagar.Text);
-			total += ventaProducto.cantprodvp * productoSeleccionado.PrecioProducto;
+			total += precio;
 			txtTotalPagar.Text = total.ToString();
         }
 
