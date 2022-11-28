@@ -185,7 +185,7 @@ namespace system_ACXAJY
             this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAdd.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAdd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.btnAdd.Location = new System.Drawing.Point(541, 450);
+            this.btnAdd.Location = new System.Drawing.Point(577, 371);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(130, 71);
             this.btnAdd.TabIndex = 87;
@@ -195,7 +195,7 @@ namespace system_ACXAJY
             // 
             // txtCantP
             // 
-            this.txtCantP.Location = new System.Drawing.Point(177, 411);
+            this.txtCantP.Location = new System.Drawing.Point(177, 421);
             this.txtCantP.Name = "txtCantP";
             this.txtCantP.Size = new System.Drawing.Size(166, 31);
             this.txtCantP.TabIndex = 86;
@@ -204,7 +204,7 @@ namespace system_ACXAJY
             // 
             this.coBoxProd.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.coBoxProd.FormattingEnabled = true;
-            this.coBoxProd.Location = new System.Drawing.Point(177, 372);
+            this.coBoxProd.Location = new System.Drawing.Point(177, 378);
             this.coBoxProd.Name = "coBoxProd";
             this.coBoxProd.Size = new System.Drawing.Size(231, 33);
             this.coBoxProd.TabIndex = 85;
@@ -233,7 +233,7 @@ namespace system_ACXAJY
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(82, 411);
+            this.label12.Location = new System.Drawing.Point(82, 421);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(75, 21);
             this.label12.TabIndex = 82;
@@ -243,7 +243,7 @@ namespace system_ACXAJY
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label14.Location = new System.Drawing.Point(90, 372);
+            this.label14.Location = new System.Drawing.Point(91, 384);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(71, 21);
             this.label14.TabIndex = 80;

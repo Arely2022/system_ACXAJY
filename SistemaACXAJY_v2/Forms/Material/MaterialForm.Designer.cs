@@ -32,8 +32,6 @@ namespace system_ACXAJY
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgvMaterial = new System.Windows.Forms.DataGridView();
@@ -52,8 +50,6 @@ namespace system_ACXAJY
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(117)))), ((int)(((byte)(157)))));
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnAdd);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -61,24 +57,6 @@ namespace system_ACXAJY
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(824, 87);
             this.panel1.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.textBox1.Location = new System.Drawing.Point(490, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(188, 29);
-            this.textBox1.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(412, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 21);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Buscar:";
             // 
             // btnAdd
             // 
@@ -224,7 +202,5 @@ namespace system_ACXAJY
         private System.Windows.Forms.DataGridViewImageColumn editar;
         private System.Windows.Forms.DataGridViewImageColumn eliminar;
         public DataGridView dgvMaterial;
-        private TextBox textBox1;
-        private Label label2;
     }
 }

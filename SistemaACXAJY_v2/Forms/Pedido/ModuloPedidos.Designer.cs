@@ -153,7 +153,7 @@ namespace system_ACXAJY
             // 
             this.txtCliName.Location = new System.Drawing.Point(281, 325);
             this.txtCliName.Name = "txtCliName";
-            this.txtCliName.Size = new System.Drawing.Size(238, 29);
+            this.txtCliName.Size = new System.Drawing.Size(265, 29);
             this.txtCliName.TabIndex = 20;
             // 
             // panel1
@@ -313,7 +313,7 @@ namespace system_ACXAJY
             // 
             this.dTimeEntrega.Location = new System.Drawing.Point(281, 412);
             this.dTimeEntrega.Name = "dTimeEntrega";
-            this.dTimeEntrega.Size = new System.Drawing.Size(200, 29);
+            this.dTimeEntrega.Size = new System.Drawing.Size(265, 29);
             this.dTimeEntrega.TabIndex = 34;
             // 
             // label8
@@ -341,7 +341,7 @@ namespace system_ACXAJY
             this.txtDir.Location = new System.Drawing.Point(281, 453);
             this.txtDir.Multiline = true;
             this.txtDir.Name = "txtDir";
-            this.txtDir.Size = new System.Drawing.Size(238, 52);
+            this.txtDir.Size = new System.Drawing.Size(265, 52);
             this.txtDir.TabIndex = 37;
             // 
             // txtCantP
