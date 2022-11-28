@@ -63,21 +63,7 @@ public class PedidoProductoQueries
             }
 
             // 3. Actualizar el inventario
-            cm = new SqlCommand(@"
-								UPDATE producto
-								SET cantidad_prod=(cantidad_prod-@cantprod_pp)
-								WHERE ID_producto = '" + pedidoProducto.Idproductopp + "'", con, transaction);
-            cm.Parameters.AddWithValue("@cantprod_pp", pedidoProducto.cantprod);
-
-            try
-            {
-                cm.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
-            }
+            
         }
 
         return true;
@@ -105,21 +91,7 @@ public class PedidoProductoQueries
             }
 
             // 2. Se devuelve la cantidad del producto al inventario
-            cm = new SqlCommand(@"
-								UPDATE producto
-								SET cantidad_prod=(cantidad_prod+@cantprod_pp)
-								WHERE ID_producto = '" + pedidoProducto.Idproductopp + "'", con, transaction);
-            cm.Parameters.AddWithValue("@cantprod_pp", pedidoProducto.cantprod);
-
-            try
-            {
-                cm.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
-            }
+           
         }
 
         return true;

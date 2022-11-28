@@ -44,9 +44,7 @@ namespace system_ACXAJY
             this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.txtprecioMat = new System.Windows.Forms.TextBox();
             this.coBoxMat = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.dTimeCompra = new System.Windows.Forms.DateTimePicker();
             this.txtTotalPagar = new System.Windows.Forms.TextBox();
@@ -108,7 +106,7 @@ namespace system_ACXAJY
             this.panel1.Controls.Add(this.btnUpdate);
             this.panel1.Controls.Add(this.btnClear);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 553);
+            this.panel1.Location = new System.Drawing.Point(0, 525);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(741, 82);
@@ -171,7 +169,7 @@ namespace system_ACXAJY
             // 
             // txtCantMat
             // 
-            this.txtCantMat.Location = new System.Drawing.Point(174, 414);
+            this.txtCantMat.Location = new System.Drawing.Point(174, 384);
             this.txtCantMat.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCantMat.Name = "txtCantMat";
             this.txtCantMat.Size = new System.Drawing.Size(194, 31);
@@ -181,7 +179,7 @@ namespace system_ACXAJY
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(79, 420);
+            this.label2.Location = new System.Drawing.Point(79, 390);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 21);
             this.label2.TabIndex = 63;
@@ -201,7 +199,7 @@ namespace system_ACXAJY
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label10.Location = new System.Drawing.Point(174, 499);
+            this.label10.Location = new System.Drawing.Point(174, 469);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(19, 21);
             this.label10.TabIndex = 105;
@@ -224,20 +222,13 @@ namespace system_ACXAJY
             this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAdd.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAdd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.btnAdd.Location = new System.Drawing.Point(560, 463);
+            this.btnAdd.Location = new System.Drawing.Point(547, 423);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(130, 71);
             this.btnAdd.TabIndex = 103;
-            this.btnAdd.Text = "Agregar Producto";
+            this.btnAdd.Text = "Agregar Material";
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // txtprecioMat
-            // 
-            this.txtprecioMat.Location = new System.Drawing.Point(174, 375);
-            this.txtprecioMat.Name = "txtprecioMat";
-            this.txtprecioMat.Size = new System.Drawing.Size(166, 31);
-            this.txtprecioMat.TabIndex = 102;
             // 
             // coBoxMat
             // 
@@ -248,21 +239,11 @@ namespace system_ACXAJY
             this.coBoxMat.Size = new System.Drawing.Size(231, 33);
             this.coBoxMat.TabIndex = 101;
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label12.Location = new System.Drawing.Point(100, 381);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(56, 21);
-            this.label12.TabIndex = 98;
-            this.label12.Text = "Precio:";
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label8.Location = new System.Drawing.Point(42, 463);
+            this.label8.Location = new System.Drawing.Point(42, 433);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(116, 21);
             this.label8.TabIndex = 96;
@@ -270,7 +251,7 @@ namespace system_ACXAJY
             // 
             // dTimeCompra
             // 
-            this.dTimeCompra.Location = new System.Drawing.Point(174, 453);
+            this.dTimeCompra.Location = new System.Drawing.Point(174, 423);
             this.dTimeCompra.Name = "dTimeCompra";
             this.dTimeCompra.Size = new System.Drawing.Size(292, 31);
             this.dTimeCompra.TabIndex = 95;
@@ -278,7 +259,7 @@ namespace system_ACXAJY
             // txtTotalPagar
             // 
             this.txtTotalPagar.Enabled = false;
-            this.txtTotalPagar.Location = new System.Drawing.Point(209, 493);
+            this.txtTotalPagar.Location = new System.Drawing.Point(209, 463);
             this.txtTotalPagar.Name = "txtTotalPagar";
             this.txtTotalPagar.Size = new System.Drawing.Size(94, 31);
             this.txtTotalPagar.TabIndex = 94;
@@ -361,7 +342,7 @@ namespace system_ACXAJY
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label6.Location = new System.Drawing.Point(53, 499);
+            this.label6.Location = new System.Drawing.Point(53, 469);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(107, 21);
             this.label6.TabIndex = 91;
@@ -370,7 +351,7 @@ namespace system_ACXAJY
             // lblCID
             // 
             this.lblCID.AutoSize = true;
-            this.lblCID.Location = new System.Drawing.Point(318, 291);
+            this.lblCID.Location = new System.Drawing.Point(608, 306);
             this.lblCID.Name = "lblCID";
             this.lblCID.Size = new System.Drawing.Size(101, 25);
             this.lblCID.TabIndex = 90;
@@ -382,13 +363,11 @@ namespace system_ACXAJY
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.ClientSize = new System.Drawing.Size(741, 635);
+            this.ClientSize = new System.Drawing.Size(741, 607);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.txtprecioMat);
             this.Controls.Add(this.coBoxMat);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.dTimeCompra);
             this.Controls.Add(this.txtTotalPagar);
@@ -432,9 +411,7 @@ namespace system_ACXAJY
         private Label label10;
         private Label label7;
         public Button btnAdd;
-        public TextBox txtprecioMat;
         public ComboBox coBoxMat;
-        private Label label12;
         private Label label8;
         public DateTimePicker dTimeCompra;
         public TextBox txtTotalPagar;

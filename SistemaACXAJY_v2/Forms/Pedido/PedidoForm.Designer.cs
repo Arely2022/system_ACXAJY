@@ -32,8 +32,7 @@ namespace system_ACXAJY
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PedidoForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -46,6 +45,7 @@ namespace system_ACXAJY
             this.dir_ped = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.editar = new System.Windows.Forms.DataGridViewImageColumn();
             this.eliminar = new System.Windows.Forms.DataGridViewImageColumn();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnAdd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -55,8 +55,8 @@ namespace system_ACXAJY
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(117)))), ((int)(((byte)(157)))));
-            this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.btnAdd);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -65,23 +65,13 @@ namespace system_ACXAJY
             this.panel1.Size = new System.Drawing.Size(824, 87);
             this.panel1.TabIndex = 1;
             // 
-            // textBox1
+            // txtSearch
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.textBox1.Location = new System.Drawing.Point(490, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(188, 29);
-            this.textBox1.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(412, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 21);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Buscar:";
+            this.txtSearch.Location = new System.Drawing.Point(553, 33);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(162, 29);
+            this.txtSearch.TabIndex = 2;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // btnAdd
             // 
@@ -141,19 +131,20 @@ namespace system_ACXAJY
             this.dir_ped,
             this.editar,
             this.eliminar});
+            this.dgvPedido.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvPedido.EnableHeadersVisualStyles = false;
             this.dgvPedido.GridColor = System.Drawing.SystemColors.Control;
             this.dgvPedido.Location = new System.Drawing.Point(0, 0);
             this.dgvPedido.Name = "dgvPedido";
             this.dgvPedido.RowHeadersWidth = 62;
             this.dgvPedido.RowTemplate.Height = 28;
-            this.dgvPedido.Size = new System.Drawing.Size(824, 441);
+            this.dgvPedido.Size = new System.Drawing.Size(824, 447);
             this.dgvPedido.TabIndex = 2;
             this.dgvPedido.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPedido_CellContentClick);
             // 
             // ID_pedido
             // 
-            this.ID_pedido.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ID_pedido.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ID_pedido.HeaderText = "Número";
             this.ID_pedido.MinimumWidth = 8;
             this.ID_pedido.Name = "ID_pedido";
@@ -180,7 +171,7 @@ namespace system_ACXAJY
             // 
             // total_ped
             // 
-            this.total_ped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.total_ped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.total_ped.HeaderText = "Total";
             this.total_ped.MinimumWidth = 8;
             this.total_ped.Name = "total_ped";
@@ -189,7 +180,7 @@ namespace system_ACXAJY
             // 
             // fecha_ped
             // 
-            this.fecha_ped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.fecha_ped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
             this.fecha_ped.HeaderText = "Fecha";
             this.fecha_ped.MinimumWidth = 8;
             this.fecha_ped.Name = "fecha_ped";
@@ -224,6 +215,15 @@ namespace system_ACXAJY
             this.eliminar.Name = "eliminar";
             this.eliminar.Width = 8;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(482, 33);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 21);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Buscar:";
+            // 
             // PedidoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -252,8 +252,7 @@ namespace system_ACXAJY
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         public System.Windows.Forms.DataGridView dgvPedido;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label2;
+        private TextBox txtSearch;
         private DataGridViewTextBoxColumn ID_pedido;
         private DataGridViewTextBoxColumn nombrecliente;
         private DataGridViewCheckBoxColumn completado;
@@ -262,5 +261,6 @@ namespace system_ACXAJY
         private DataGridViewTextBoxColumn dir_ped;
         private DataGridViewImageColumn editar;
         private DataGridViewImageColumn eliminar;
+        private Label label2;
     }
 }

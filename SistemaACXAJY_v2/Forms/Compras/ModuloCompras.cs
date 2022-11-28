@@ -161,7 +161,7 @@ namespace system_ACXAJY
 
 				DataGridViewRow row = dgvSeleccionMat.Rows[indiceMaterial];
 
-				row.Cells[1].Value = compraMaterial.cantmaterialcm;
+				row.Cells[2].Value = compraMaterial.cantmaterialcm;
 			}
 
             // Sumar el precio de los productos a la venta

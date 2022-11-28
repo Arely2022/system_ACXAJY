@@ -19,7 +19,9 @@ namespace system_ACXAJY
         public void LoadPedido()
         {
             dgvPedido.Rows.Clear();
-            cm = new SqlCommand("SELECT * FROM pedido", con);
+            cm = new SqlCommand(@"SELECT ID_pedido, nomcli_ped, completado_ped, total_ped, 
+            fechaentrega_ped, direntrega_ped FROM pedido  where concat (nomcli_ped, 
+            fechaentrega_ped, direntrega_ped) LIKE '%" +txtSearch.Text+ "%' ORDER BY fechaentrega_ped", con);
             con.Open();
             dr = cm.ExecuteReader();
             while (dr.Read())
@@ -103,6 +105,11 @@ namespace system_ACXAJY
                     MessageBox.Show("Registro eliminado correctamente");
                 }
             }
+            LoadPedido();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
             LoadPedido();
         }
     }

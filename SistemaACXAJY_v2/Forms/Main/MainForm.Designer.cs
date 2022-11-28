@@ -37,13 +37,14 @@ namespace system_ACXAJY
             this.btnProductos = new System.Windows.Forms.Button();
             this.btnMaterial = new System.Windows.Forms.Button();
             this.btnCategorias = new System.Windows.Forms.Button();
-            this.btnGanacias = new System.Windows.Forms.Button();
-            this.panelBase = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.btnGanacias = new System.Windows.Forms.Button();
+            this.panelBase = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtGanancias = new System.Windows.Forms.TextBox();
             this.panelMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -143,25 +144,6 @@ namespace system_ACXAJY
             this.btnCategorias.UseVisualStyleBackColor = false;
             this.btnCategorias.Click += new System.EventHandler(this.btnCategorias_Click);
             // 
-            // btnGanacias
-            // 
-            this.btnGanacias.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.btnGanacias.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnGanacias.Location = new System.Drawing.Point(34, 10);
-            this.btnGanacias.Name = "btnGanacias";
-            this.btnGanacias.Size = new System.Drawing.Size(106, 30);
-            this.btnGanacias.TabIndex = 12;
-            this.btnGanacias.Text = "Ganancias";
-            this.btnGanacias.UseVisualStyleBackColor = false;
-            // 
-            // panelBase
-            // 
-            this.panelBase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
-            this.panelBase.Location = new System.Drawing.Point(154, 0);
-            this.panelBase.Name = "panelBase";
-            this.panelBase.Size = new System.Drawing.Size(824, 534);
-            this.panelBase.TabIndex = 4;
-            // 
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
@@ -202,15 +184,43 @@ namespace system_ACXAJY
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
             // 
+            // btnGanacias
+            // 
+            this.btnGanacias.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
+            this.btnGanacias.Font = new System.Drawing.Font("Ebrima", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnGanacias.Location = new System.Drawing.Point(34, 10);
+            this.btnGanacias.Name = "btnGanacias";
+            this.btnGanacias.Size = new System.Drawing.Size(193, 30);
+            this.btnGanacias.TabIndex = 12;
+            this.btnGanacias.Text = "Actualizar Ganancias";
+            this.btnGanacias.UseVisualStyleBackColor = false;
+            this.btnGanacias.Click += new System.EventHandler(this.btnGanacias_Click);
+            // 
+            // panelBase
+            // 
+            this.panelBase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(237)))));
+            this.panelBase.Location = new System.Drawing.Point(154, 0);
+            this.panelBase.Name = "panelBase";
+            this.panelBase.Size = new System.Drawing.Size(824, 534);
+            this.panelBase.TabIndex = 4;
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(117)))), ((int)(((byte)(157)))));
+            this.panel1.Controls.Add(this.txtGanancias);
             this.panel1.Controls.Add(this.btnGanacias);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(156, 530);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(822, 54);
             this.panel1.TabIndex = 5;
+            // 
+            // txtGanancias
+            // 
+            this.txtGanancias.Location = new System.Drawing.Point(251, 12);
+            this.txtGanancias.Name = "txtGanancias";
+            this.txtGanancias.Size = new System.Drawing.Size(158, 29);
+            this.txtGanancias.TabIndex = 13;
             // 
             // MainForm
             // 
@@ -231,6 +241,7 @@ namespace system_ACXAJY
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -251,5 +262,6 @@ namespace system_ACXAJY
         private Button btnVentas;
         private Button btnCompras;
         private Panel panel1;
+        private TextBox txtGanancias;
     }
 }

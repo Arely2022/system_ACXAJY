@@ -196,7 +196,7 @@ namespace system_ACXAJY
 
 				DataGridViewRow row = dgvSeleccionProd.Rows[indiceProducto];
 
-				row.Cells[1].Value = ventaProducto.cantprodvp;
+				row.Cells[2].Value = ventaProducto.cantprodvp;
 			}
 
             coBoxCateg.SelectedIndex = -1;
@@ -271,7 +271,7 @@ namespace system_ACXAJY
             SqlTransaction transaction = con.BeginTransaction();
 
             // 1. Actualizar el pedido
-            string query = @"
+            string query = @$"
                 UPDATE venta
                 SET fecha_venta=@fecha_venta, total_venta=@total_venta
                 WHERE Id_venta = {_venta.IdVenta}";
