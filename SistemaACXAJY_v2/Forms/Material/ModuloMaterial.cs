@@ -2,9 +2,8 @@
 
 namespace system_ACXAJY
 {
-    public partial class ModuloMaterial : Form
+    public partial class ModuloMaterial : BaseForm
     {
-        SqlConnection con = new SqlConnection(@"Data Source=CMX-TST-3XA7HYU\SQLEXPRESS;Initial Catalog=System_ACXAJY;Integrated Security=True");
         SqlCommand cm = new SqlCommand();
         public ModuloMaterial()
         {
